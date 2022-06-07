@@ -1,11 +1,15 @@
 package com.codegym.finalproject.model;
 
 
+import com.codegym.finalproject.model.entity.Account;
+import com.codegym.finalproject.model.entity.Apply;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -20,4 +24,13 @@ public class User {
     private String name;
 
     private String phone;
+
+    @OneToOne
+    private Account account;
+
+    @OneToMany(targetEntity = Apply.class, mappedBy = "user")
+    @JsonIgnore
+    private List<Apply> applies;
+
+
 }

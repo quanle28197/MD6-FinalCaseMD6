@@ -1,8 +1,7 @@
-package com.codegym.finalproject.model;
+package com.codegym.finalproject.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import lombok.Getter;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;

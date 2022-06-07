@@ -1,4 +1,4 @@
-package com.codegym.finalproject.model;
+package com.codegym.finalproject.model.entity;
 
 public enum RoleName {
     USER,
