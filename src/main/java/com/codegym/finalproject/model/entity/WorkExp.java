@@ -1,6 +1,5 @@
 package com.codegym.finalproject.model.entity;
 
-import jdk.vm.ci.meta.Local;
 import lombok.Data;
 
 import javax.persistence.*;
