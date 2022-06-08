@@ -19,6 +19,9 @@ public class City {
     @OneToMany(targetEntity = Company.class, mappedBy = "city")
     @JsonIgnore
     private List<Company> companies;
-//    @OneToMany(targetEntity = )
+
+    @OneToMany(targetEntity = RecuitmentNew.class,mappedBy="city")
+    @JsonIgnore
+    private List<RecuitmentNew> recuitmentNews;
 
 }

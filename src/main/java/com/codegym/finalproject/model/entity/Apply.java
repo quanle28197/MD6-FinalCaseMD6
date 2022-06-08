@@ -1,6 +1,5 @@
 package com.codegym.finalproject.model.entity;
 
-import com.codegym.finalproject.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
