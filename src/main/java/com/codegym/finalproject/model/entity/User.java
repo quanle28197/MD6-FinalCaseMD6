@@ -1,8 +1,5 @@
-package com.codegym.finalproject.model;
+package com.codegym.finalproject.model.entity;
 
-
-import com.codegym.finalproject.model.entity.Account;
-import com.codegym.finalproject.model.entity.Apply;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
