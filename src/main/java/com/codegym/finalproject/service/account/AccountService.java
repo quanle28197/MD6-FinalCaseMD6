@@ -20,7 +20,7 @@ public class AccountService implements IAccountService {
 
     @Override
     public Boolean existsByUsername(String username) {
-        return accountRepository.existByUsername(username);
+        return accountRepository.existsByUsername(username);
     }
 
     @Override

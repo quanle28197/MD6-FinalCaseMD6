@@ -12,5 +12,5 @@ public interface IAccountRepository extends JpaRepository<Account, Long> {
     Optional<Account> findByUsername(String name);
 
 //    username da ton tai trong db chua
-    Boolean existByUsername(String username);
+    Boolean existsByUsername(String username);
 }

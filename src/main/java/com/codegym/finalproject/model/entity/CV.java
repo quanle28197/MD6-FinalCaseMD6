@@ -1,6 +1,5 @@
 package com.codegym.finalproject.model.entity;
 
-import com.codegym.finalproject.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.Fetch;

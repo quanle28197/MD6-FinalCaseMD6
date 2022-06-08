@@ -1,4 +1,4 @@
-package com.codegym.finalproject.model.dto;
+package com.codegym.finalproject.model.dto.request;
 
 import java.util.Set;
 

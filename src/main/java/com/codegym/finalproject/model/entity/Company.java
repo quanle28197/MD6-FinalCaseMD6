@@ -1,6 +1,5 @@
 package com.codegym.finalproject.model.entity;
 
-import ch.qos.logback.classic.db.names.ColumnName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;

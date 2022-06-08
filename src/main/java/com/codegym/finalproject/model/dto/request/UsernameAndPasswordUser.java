@@ -1,16 +1,24 @@
-package com.codegym.finalproject.model.dto;
+package com.codegym.finalproject.model.dto.request;
 
-public class SignInForm {
+public class UsernameAndPasswordUser {
+    private Long id;
+
     private String username;
 
     private String password;
 
-    public SignInForm() {
-    }
-
-    public SignInForm(String username, String password) {
+    public UsernameAndPasswordUser(Long id, String username, String password) {
+        this.id = id;
         this.username = username;
         this.password = password;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getUsername() {
