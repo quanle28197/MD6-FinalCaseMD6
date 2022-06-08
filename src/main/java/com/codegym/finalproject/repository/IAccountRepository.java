@@ -8,9 +8,9 @@ import java.util.Optional;
 
 @Repository
 public interface IAccountRepository extends JpaRepository<Account, Long> {
-//    Tim kiem user co ton tai trong db khong
+    //    Tim kiem user co ton tai trong db khong
     Optional<Account> findByUsername(String name);
 
-//    username da ton tai trong db chua
+    //    username da ton tai trong db chua
     Boolean existsByUsername(String username);
 }

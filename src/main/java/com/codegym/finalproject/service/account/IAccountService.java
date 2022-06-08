@@ -10,4 +10,5 @@ public interface IAccountService extends IGeneralService<Account> {
     Optional<Account> findByUsername(String name);
 
     Boolean existsByUsername(String username);
+
 }

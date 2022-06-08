@@ -51,5 +51,18 @@ public class Company {
     private List<RecuitmentNew> recuitmentNews;
 
 
-
+    public Company(String codeCompany, String name, String avatar, String description, String address, int emplployeeQuantity, City city, String linkMap, String phone, Status statusCompany, Account account, List<RecuitmentNew> recuitmentNews) {
+        this.codeCompany = codeCompany;
+        this.name = name;
+        this.avatar = avatar;
+        this.description = description;
+        this.address = address;
+        this.emplployeeQuantity = emplployeeQuantity;
+        this.city = city;
+        this.linkMap = linkMap;
+        this.phone = phone;
+        this.statusCompany = statusCompany;
+        this.account = account;
+        this.recuitmentNews = recuitmentNews;
+    }
 }
