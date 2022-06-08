@@ -12,10 +12,11 @@ import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
 
 @Service("mailService")
-public class EmailServiceImpl implements EmailService{
+public class EmailServiceImpl implements EmailService  {
 
     @Autowired
     private JavaMailSender emailSender;
+
 
     @Override
     public void sendSimpleMessage(MailObject mail) {
@@ -25,7 +26,7 @@ public class EmailServiceImpl implements EmailService{
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
 
             mimeMessageHelper.setSubject(mail.getMailSubject());
-            mimeMessageHelper.setFrom(new InternetAddress(mail.getMailFrom(), "Paso"));
+            mimeMessageHelper.setFrom(new InternetAddress(mail.getMailFrom(), "quanLe"));
             mimeMessageHelper.setTo(mail.getMailTo());
             mimeMessageHelper.setText(mail.getMailContent());
 
@@ -37,4 +38,5 @@ public class EmailServiceImpl implements EmailService{
             e.printStackTrace();
         }
     }
+
 }
