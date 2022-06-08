@@ -76,7 +76,7 @@ public class AuthController {
                     break;
                 default:
                     Role userRole = roleService.findByName(RoleName.USER).orElseThrow(() -> new RuntimeException("Role not found"));
-                    MailObject mailObject1 = new MailObject("quanle.elv@gmail.com", account.getUsername(), "Your Account Verified", "Your Account is: username: " + account.getUsername() + "\npassword: " + passwordOld);
+                    MailObject mailObject1 = new MailObject("findJob@job.com", account.getUsername(), "Your Account Verified", "Your Account is: username: " + account.getUsername() + "\npassword: " + passwordOld);
                     emailService.sendSimpleMessage(mailObject1);
                     roles.add(userRole);
             }
