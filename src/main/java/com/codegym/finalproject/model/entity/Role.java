@@ -1,13 +1,14 @@
 package com.codegym.finalproject.model.entity;
 
 
-import com.codegym.finalproject.model.entity.RoleName;
+import lombok.Data;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "roles")
+@Data
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
