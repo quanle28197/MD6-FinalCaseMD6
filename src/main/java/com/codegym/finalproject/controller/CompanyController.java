@@ -5,6 +5,7 @@ import com.codegym.finalproject.model.entity.Account;
 import com.codegym.finalproject.model.entity.City;
 import com.codegym.finalproject.model.entity.Company;
 import com.codegym.finalproject.model.entity.RecuitmentNew;
+import com.codegym.finalproject.security.userprincipal.UserDetailServices;
 import com.codegym.finalproject.service.account.IAccountService;
 import com.codegym.finalproject.service.city.ICityService;
 import com.codegym.finalproject.service.company.ICompanyService;
@@ -19,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -27,6 +29,9 @@ import java.util.Optional;
 public class CompanyController {
     @Autowired
     private ICompanyService companyService;
+
+    @Autowired
+    UserDetailServices userDetailServices;
 
     @Autowired
     private ICityService cityService;
@@ -115,4 +120,25 @@ public class CompanyController {
         companyService.deleteById(id);
         return new ResponseEntity<>(companyOptional.get(), HttpStatus.OK);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> detailCompany(@PathVariable Long id) {
+        Optional<Company> company = companyService.findById(id);
+        if (!company.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(company, HttpStatus.OK);
+    }
+
+    @GetMapping("/findByStatus/{status}")
+    public ResponseEntity<?> findByStatus(@PathVariable Integer status) {
+        List<Company> companyList = companyService.findCompanyByStatus(status);
+        return new ResponseEntity<>(companyList, HttpStatus.OK);
+    }
+
+//    @PutMapping("/change_status")
+//    public ResponseEntity<?> updateCompanyStatus(@PathVariable Long id, @RequestBody StatusRequest statusRequest) {
+//        Account account = userDetailServices.getCurrentUser();
+//        if ()
+//    }
 }

@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 @Service
 public class CompanyService implements ICompanyService {
@@ -39,4 +40,18 @@ public class CompanyService implements ICompanyService {
         return companyRepository.save(company);
     }
 
+    @Override
+    public Optional<Company> findAllByAccount_Id(Long id) {
+        return companyRepository.findAllByAccount_Id(id);
+    }
+
+    @Override
+    public Boolean existByName(String name) {
+        return companyRepository.existsByName(name);
+    }
+
+    @Override
+    public List<Company> findCompanyByStatus(Integer stt) {
+        return companyRepository.findCompanyByStatus(stt);
+    }
 }
