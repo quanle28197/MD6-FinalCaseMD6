@@ -1,4 +1,4 @@
-package com.codegym.finalproject.model.dto;
+package com.codegym.finalproject.model.dto.company;
 
 import com.codegym.finalproject.model.entity.Account;
 import com.codegym.finalproject.model.entity.City;

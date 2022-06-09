@@ -1,6 +1,6 @@
 package com.codegym.finalproject.controller;
 
-import com.codegym.finalproject.model.dto.CompanyForm;
+import com.codegym.finalproject.model.dto.company.CompanyForm;
 import com.codegym.finalproject.model.entity.Account;
 import com.codegym.finalproject.model.entity.City;
 import com.codegym.finalproject.model.entity.Company;
@@ -121,19 +121,25 @@ public class CompanyController {
         return new ResponseEntity<>(companyOptional.get(), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> detailCompany(@PathVariable Long id) {
-        Optional<Company> company = companyService.findById(id);
-        if (!company.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(company, HttpStatus.OK);
-    }
+//    @GetMapping("/{id}")
+//    public ResponseEntity<?> detailCompany(@PathVariable Long id) {
+//        Optional<Company> company = companyService.findById(id);
+//        if (!company.isPresent()) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//        return new ResponseEntity<>(company, HttpStatus.OK);
+//    }
 
     @GetMapping("/findByStatus/{status}")
     public ResponseEntity<?> findByStatus(@PathVariable Integer status) {
         List<Company> companyList = companyService.findCompanyByStatus(status);
         return new ResponseEntity<>(companyList, HttpStatus.OK);
+    }
+
+    @GetMapping("/find/{name}")
+    public ResponseEntity<List<Company>> findByName(@PathVariable String name) {
+        List<Company> list = companyService.findByName('%' + name + '%');
+        return new ResponseEntity<>(list,HttpStatus.OK);
     }
 
 //    @PutMapping("/change_status")
