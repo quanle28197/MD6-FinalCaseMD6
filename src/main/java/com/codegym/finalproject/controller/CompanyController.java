@@ -112,7 +112,7 @@ public class CompanyController {
         if (!companyOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        companyService.removeById(id);
+        companyService.deleteById(id);
         return new ResponseEntity<>(companyOptional.get(), HttpStatus.OK);
     }
 }

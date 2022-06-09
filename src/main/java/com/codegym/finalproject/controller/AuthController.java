@@ -10,10 +10,12 @@ import com.codegym.finalproject.model.entity.*;
 import com.codegym.finalproject.security.jwt.JwtProvider;
 import com.codegym.finalproject.security.userprincipal.UserDetailServices;
 import com.codegym.finalproject.security.userprincipal.UserPrinciple;
+import com.codegym.finalproject.service.EmailServiceImpl;
 import com.codegym.finalproject.service.account.AccountService;
 import com.codegym.finalproject.service.role.RoleService;
 import com.codegym.finalproject.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -53,6 +55,12 @@ public class AuthController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    EmailServiceImpl emailService;
+
+    @Value("${spring.mail.username}")
+    private String from;
+
     @PostMapping("/signup")
     public ResponseEntity<?> register(@Valid @RequestBody SignUpForm signUpForm) {
         if (accountService.existsByUsername(signUpForm.getUsername())) {
@@ -72,6 +80,8 @@ public class AuthController {
                     break;
                 default:
                     Role userRole = roleService.findByName(RoleName.USER).orElseThrow(() -> new RuntimeException("Role not found"));
+                    MailObject mailObject1 = new MailObject(from, account.getUsername(), "Your Account Verified", "Your Account is: username: " + account.getUsername() + "\npassword: " + passwordOld);
+                    emailService.sendSimpleMessage(mailObject1);
                     roles.add(userRole);
             }
         });
@@ -141,5 +151,16 @@ public class AuthController {
             }
         }
         return new ResponseEntity<>(accounts, HttpStatus.OK);
+    }
+
+    @GetMapping("/verify/{id}")
+    public ResponseEntity<Account> verifyAccount(@PathVariable Long id) {
+        Optional<Account> account = accountService.findById(id);
+        if (!account.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        account.get().setStatus(Status.ACTIVE);
+        accountService.save(account.get());
+        return new ResponseEntity<>(account.get(), HttpStatus.OK);
     }
 }

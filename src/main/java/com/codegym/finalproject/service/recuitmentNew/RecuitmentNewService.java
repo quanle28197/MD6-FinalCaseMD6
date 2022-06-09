@@ -3,6 +3,8 @@ package com.codegym.finalproject.service.recuitmentNew;
 import com.codegym.finalproject.model.entity.RecuitmentNew;
 import com.codegym.finalproject.repository.IRecuitmentNewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -18,6 +20,16 @@ public class RecuitmentNewService implements IRecuitmentNewService{
     }
 
     @Override
+    public Page<RecuitmentNew> findAll(Pageable pageable) {
+        return recuitmentNewRepository.findAll(pageable);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        recuitmentNewRepository.deleteById(id);
+    }
+
+    @Override
     public Optional<RecuitmentNew> findById(Long id) {
         return recuitmentNewRepository.findById(id);
     }
@@ -27,8 +39,4 @@ public class RecuitmentNewService implements IRecuitmentNewService{
         return recuitmentNewRepository.save(recuitmentNew);
     }
 
-    @Override
-    public void removeById(Long id) {
-       recuitmentNewRepository.deleteById(id);
-    }
 }
