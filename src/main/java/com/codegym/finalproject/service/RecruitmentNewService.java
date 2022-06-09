@@ -48,4 +48,6 @@ public class RecruitmentNewService implements IRecruitmentNewService{
     public List<RecuitmentNew> findAllbyCompany_Id(Long id) {
         return recruitmentNewRepository.findAllByCompany_Id(id);
     }
+
+
 }
