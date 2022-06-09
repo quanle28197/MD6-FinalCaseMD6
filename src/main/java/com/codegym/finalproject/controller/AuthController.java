@@ -10,7 +10,8 @@ import com.codegym.finalproject.model.entity.*;
 import com.codegym.finalproject.security.jwt.JwtProvider;
 import com.codegym.finalproject.security.userprincipal.UserDetailServices;
 import com.codegym.finalproject.security.userprincipal.UserPrinciple;
-import com.codegym.finalproject.service.EmailServiceImpl;
+import com.codegym.finalproject.service.company.CompanyService;
+import com.codegym.finalproject.service.email.EmailServiceImpl;
 import com.codegym.finalproject.service.account.AccountService;
 import com.codegym.finalproject.service.role.RoleService;
 import com.codegym.finalproject.service.user.UserService;
@@ -58,6 +59,9 @@ public class AuthController {
     @Autowired
     EmailServiceImpl emailService;
 
+    @Autowired
+    CompanyService companyService;
+
     @Value("${spring.mail.username}")
     private String from;
 
@@ -78,9 +82,19 @@ public class AuthController {
                     );
                     roles.add(adminRole);
                     break;
+                case "company":
+                    Role pmRole = roleService.findByName(RoleName.COMPANY).orElseThrow(() -> new RuntimeException("Role not found"));
+                    roles.add(pmRole);
+                    int min = 10000000;
+                    int max = 99999999;
+                    String passwordNew = String.valueOf((int) Math.floor(Math.round((Math.random() * (max - min + 1) + min))));
+                    account.setPassword(passwordEncoder.encode(passwordNew));
+                    MailObject mailObject = new MailObject("findJob@job.com",account.getUsername(), "Your account company is verify", "Your account is"+" \nusername:" +account.getUsername() + "\npassword: " + passwordNew );
+                    emailService.sendSimpleMessage(mailObject);
+                    break;
                 default:
                     Role userRole = roleService.findByName(RoleName.USER).orElseThrow(() -> new RuntimeException("Role not found"));
-                    MailObject mailObject1 = new MailObject(from, account.getUsername(), "Your Account Verified", "Your Account is: username: " + account.getUsername() + "\npassword: " + passwordOld);
+                    MailObject mailObject1 = new MailObject(from, account.getUsername(), "Your account Verified", "Your Account is: username: " + account.getUsername() + "\npassword: " + passwordOld);
                     emailService.sendSimpleMessage(mailObject1);
                     roles.add(userRole);
             }
@@ -162,5 +176,19 @@ public class AuthController {
         account.get().setStatus(Status.ACTIVE);
         accountService.save(account.get());
         return new ResponseEntity<>(account.get(), HttpStatus.OK);
+    }
+
+    @PutMapping("/editStatusAccount/{id}")
+    public ResponseEntity<?> editStatus(@PathVariable Long id) {
+        Optional<Account> accountOptional = accountService.findById(id);
+        if (accountOptional.get().getStatus().equals(Status.NON_ACTIVE)) {
+            accountOptional.get().setStatus2(true);
+            accountOptional.get().setStatus(Status.ACTIVE);
+        } else {
+            accountOptional.get().setStatus2(false);
+            accountOptional.get().setStatus(Status.NON_ACTIVE);
+        }
+        accountService.save(accountOptional.get());
+        return new ResponseEntity<>(new ResponseMessage("oki dude"), HttpStatus.OK);
     }
 }

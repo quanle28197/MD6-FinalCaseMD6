@@ -1,4 +1,4 @@
-package com.codegym.finalproject.service;
+package com.codegym.finalproject.service.email;
 
 import com.codegym.finalproject.model.entity.MailObject;
 

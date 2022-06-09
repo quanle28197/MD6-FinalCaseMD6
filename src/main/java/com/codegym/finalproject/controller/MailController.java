@@ -1,7 +1,7 @@
 package com.codegym.finalproject.controller;
 
 import com.codegym.finalproject.model.entity.MailObject;
-import com.codegym.finalproject.service.EmailService;
+import com.codegym.finalproject.service.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

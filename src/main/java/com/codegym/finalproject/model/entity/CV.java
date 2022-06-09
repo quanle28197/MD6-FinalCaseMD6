@@ -35,4 +35,5 @@ public class CV {
     @Fetch(value = FetchMode.SUBSELECT)
     @JsonIgnore
     private List<WorkExp> workExps;
+
 }
