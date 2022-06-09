@@ -37,33 +37,24 @@ import java.util.Set;
 public class AuthController {
     @Autowired
     AccountService accountService;
-
     @Autowired
     RoleService roleService;
-
     @Autowired
     PasswordEncoder passwordEncoder;
-
     @Autowired
     AuthenticationManager authenticationManager;
-
     @Autowired
     JwtProvider jwtProvider;
-
     @Autowired
-    UserDetailServices userDetailServices;
-
+    UserDetailServices userDetailService;
     @Autowired
-    UserService userService;
+    CompanyService companyService;
 
     @Autowired
     EmailServiceImpl emailService;
 
     @Autowired
-    CompanyService companyService;
-
-    @Value("${spring.mail.username}")
-    private String from;
+    UserService userService;
 
     @PostMapping("/signup")
     public ResponseEntity<?> register(@Valid @RequestBody SignUpForm signUpForm) {
@@ -89,12 +80,12 @@ public class AuthController {
                     int max = 99999999;
                     String passwordNew = String.valueOf((int) Math.floor(Math.round((Math.random() * (max - min + 1) + min))));
                     account.setPassword(passwordEncoder.encode(passwordNew));
-                    MailObject mailObject = new MailObject("findJob@job.com",account.getUsername(), "Your account company is verify", "Your account is"+" \nusername:" +account.getUsername() + "\npassword: " + passwordNew );
+                    MailObject mailObject = new MailObject("findJob@job.com",account.getUsername(), "Account Paso Verified", "Tài Khoản Của Bạn Là"+" \nusername:" +account.getUsername() + "\npassword: " + passwordNew );
                     emailService.sendSimpleMessage(mailObject);
                     break;
                 default:
                     Role userRole = roleService.findByName(RoleName.USER).orElseThrow(() -> new RuntimeException("Role not found"));
-                    MailObject mailObject1 = new MailObject(from, account.getUsername(), "Your account Verified", "Your Account is: username: " + account.getUsername() + "\npassword: " + passwordOld);
+                    MailObject mailObject1 = new MailObject("findJob@job.com", account.getUsername(), "Account Paso Verified", "Tài khoản của bạn là: username: " + account.getUsername() + "\npassword: " + passwordOld);
                     emailService.sendSimpleMessage(mailObject1);
                     roles.add(userRole);
             }
@@ -105,6 +96,9 @@ public class AuthController {
         accountService.save(account);
         return new ResponseEntity<>(new ResponeAccount("Yes", account.getId()), HttpStatus.OK);
     }
+
+
+
 
     @PostMapping("/signin")
     public ResponseEntity<?> login(@RequestBody SignInForm signInForm) {
@@ -117,9 +111,14 @@ public class AuthController {
         Long id = ((UserPrinciple) authentication.getPrincipal()).getId();
         String a = authentication.getAuthorities().toString();
         Long idCustom = -1L;
+//        System.out.println("dinh " + userPrinciple.getStatus().);
 
         if (userPrinciple.getStatus().equalsIgnoreCase(String.valueOf(Status.NON_ACTIVE))){
             return new ResponseEntity<>(new ResponseMessage("LOCK"),HttpStatus.OK);
+        }
+        if (a.equals("[COMPANY]")) {
+            Optional<Company> company = companyService.findAllByAccount_Id(id);
+            idCustom = company.get().getId();
         }
         if (a.equals("[USER]")) {
             Optional<User> user = userService.findByAccount_Id(id);
@@ -135,7 +134,7 @@ public class AuthController {
 
     @PutMapping("/change-password")
     public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePassword changePassword) {
-        Account account = userDetailServices.getCurrentUser();
+        Account account = userDetailService.getCurrentUser();
         if (account.getUsername().equals("Anonymous")) {
             return new ResponseEntity<>(new ResponseMessage("Please login"), HttpStatus.OK);
         }
@@ -143,16 +142,33 @@ public class AuthController {
         accountService.save(account);
         return new ResponseEntity<>(new ResponseMessage("yes"), HttpStatus.OK);
     }
+//    @PutMapping("/change-avatar")
+//    public ResponseEntity<?> updateAvatar(@RequestBody ChangeAvatar avatar){
 
+    //
+//    }
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
         Optional<Account> account = accountService.findById(id);
         System.out.println(account.get().getStatus());
         if (!account.isPresent()) {
-            return new ResponseEntity<>(new ResponseMessage("User is not exist"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new ResponseMessage("Không có user này"), HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(account.get().getStatus(), HttpStatus.OK);
     }
+
+
+    @GetMapping("/verify/{id}")
+    public ResponseEntity<Account> verifyAccount(@PathVariable Long id) {
+        Optional<Account> account = accountService.findById(id);
+        if (!account.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        account.get().setStatus(Status.ACTIVE);
+        accountService.save(account.get());
+        return new ResponseEntity<>(account.get(), HttpStatus.OK);
+    }
+
 
     @GetMapping("/showAllAccount")
     public ResponseEntity<?> showAllAccount(){
@@ -167,17 +183,6 @@ public class AuthController {
         return new ResponseEntity<>(accounts, HttpStatus.OK);
     }
 
-    @GetMapping("/verify/{id}")
-    public ResponseEntity<Account> verifyAccount(@PathVariable Long id) {
-        Optional<Account> account = accountService.findById(id);
-        if (!account.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        account.get().setStatus(Status.ACTIVE);
-        accountService.save(account.get());
-        return new ResponseEntity<>(account.get(), HttpStatus.OK);
-    }
-
     @PutMapping("/editStatusAccount/{id}")
     public ResponseEntity<?> editStatus(@PathVariable Long id) {
         Optional<Account> accountOptional = accountService.findById(id);
@@ -187,8 +192,9 @@ public class AuthController {
         } else {
             accountOptional.get().setStatus2(false);
             accountOptional.get().setStatus(Status.NON_ACTIVE);
+
         }
         accountService.save(accountOptional.get());
-        return new ResponseEntity<>(new ResponseMessage("oki dude"), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseMessage("yes"), HttpStatus.OK);
     }
 }
