@@ -28,13 +28,12 @@ public class RecruitmentNewController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<?> createRecruitmentNew(@RequestBody RecuitmentNew recuitmentNew) {
-        if  (recuitmentNew.getQuantity() == null) {
+        if (recuitmentNew.getQuantity() == null) {
             return new ResponseEntity<>(new ResponseMessage("no_quantity"), HttpStatus.OK);
         }
-
-//        code Company
+        //tao codeCompany
         String nameex = recuitmentNew.getTitle().substring(0, 3);
         int min = 100;
         int max = 999;
@@ -47,6 +46,7 @@ public class RecruitmentNewController {
         recruitmentNewService.save(recuitmentNew);
         return new ResponseEntity<>(new ResponseMessage("yes"), HttpStatus.OK);
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<?> detailRecruitmentNew(@PathVariable Long id) {
