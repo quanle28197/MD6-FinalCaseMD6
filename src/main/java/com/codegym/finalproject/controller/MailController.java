@@ -23,14 +23,13 @@ public class MailController {
 
     static {
         labels = new HashMap<>();
-
+        //Simple email
         Map<String, String> props = new HashMap<>();
-        props.put("headerText", "Send email");
+        props.put("headerText", "Send Simple Email");
         props.put("messageLabel", "Message");
         props.put("additionalInfo", "");
         labels.put("send", props);
     }
-
     @GetMapping
     public ModelAndView showEmailPage() {
         ModelAndView model = new ModelAndView("/email");
@@ -46,4 +45,5 @@ public class MailController {
 
         return "/email";
     }
+
 }
