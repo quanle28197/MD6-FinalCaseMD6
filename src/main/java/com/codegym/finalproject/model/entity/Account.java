@@ -1,23 +1,26 @@
-package com.codegym.finalproject.model;
+package com.codegym.finalproject.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import lombok.Getter;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.util.HashSet;
 import java.util.Set;
 
 @Data
 @Entity
 @Table(name = "account", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"username"})
+        @UniqueConstraint(columnNames = {
+                "username"
+        })
 })
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Email
     private String username;
     private String password;
     @JsonIgnore
@@ -60,8 +63,9 @@ public class Account {
         this.status = status;
     }
 
-    public Account() {
-
+    public Account(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
     public Long getId() {
@@ -96,16 +100,8 @@ public class Account {
         this.status = status;
     }
 
-    public Boolean getStatus2() {
-        return status2;
-    }
+    public Account() {
 
-    public void setStatus2(Boolean status2) {
-        if (status.equals(Status.NON_ACTIVE)) {
-            this.status2 = false;
-        } else {
-            this.status2 = true;
-        }
     }
 
     public Set<Role> getRoles() {
@@ -114,5 +110,19 @@ public class Account {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Boolean getStatus2() {
+        return status2;
+    }
+
+    public void setStatus2(Boolean status2) {
+        if (status.equals(Status.NON_ACTIVE)) {
+            this.status2 = false;
+
+        } else {
+            this.status2 = true;
+        }
+
     }
 }
