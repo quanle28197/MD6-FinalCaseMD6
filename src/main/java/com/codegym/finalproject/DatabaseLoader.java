@@ -20,6 +20,10 @@ public class DatabaseLoader implements CommandLineRunner {
             roleService.save(new Role(RoleName.USER));
             System.out.println("INSERT ROLE USER");
         }
+        if (!roleService.findByName(RoleName.COMPANY).isPresent()) {
+            roleService.save(new Role(RoleName.COMPANY));
+            System.out.println("INSERT ROLE COMPANY");
+        }
 
     }
 }
