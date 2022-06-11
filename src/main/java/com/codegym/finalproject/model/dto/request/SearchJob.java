@@ -2,6 +2,8 @@ package com.codegym.finalproject.model.dto.request;
 
 public class SearchJob {
     private String title;
+    private String skill;
+    private String companyName;
 
     private Long cityId;
 
@@ -112,5 +114,21 @@ public class SearchJob {
 
     public void setSalary(Integer salary) {
         this.salary = salary;
+    }
+
+    public String getSkill() {
+        return skill;
+    }
+
+    public void setSkill(String skill) {
+        this.skill = skill;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 }

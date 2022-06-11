@@ -22,7 +22,8 @@ public class RecuitmentNew {
     private WorkingTime workingTime;
     @ManyToOne(targetEntity = Field.class)
     private Field field;
-    @ManyToOne(targetEntity = Company.class)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "company_id")
     private Company company;
     @ManyToOne(targetEntity = Vacancies.class)
     private Vacancies vacancies;

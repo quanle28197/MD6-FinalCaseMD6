@@ -17,6 +17,6 @@ public interface ICompanyRepository extends JpaRepository<Company, Long> {
     @Query(value = "select c.* from company c where c.status_company = :stt limit 3;",nativeQuery = true)
     List<Company> findCompanyByStatus(@Param("stt") Integer stt);
 
-    @Query(value = "select * from company c where c.name like ?1",nativeQuery = true)
-    List<Company> findByName(String name);
+    @Query(value = "SELECT c FROM Company c WHERE LOWER(c.name) LIKE LOWER(CONCAT('%', :name, '%'))")
+    List<Company> findByName(@Param("name") String name);
 }

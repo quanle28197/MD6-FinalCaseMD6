@@ -1,5 +1,6 @@
 package com.codegym.finalproject.service.recuitmentNew;
 
+import com.codegym.finalproject.model.dto.request.SearchJob;
 import com.codegym.finalproject.model.entity.RecuitmentNew;
 import com.codegym.finalproject.repository.IRecruitmentNewRepository;
 import com.codegym.finalproject.repository.IRecuitmentnewDAO;
@@ -48,6 +49,10 @@ public class RecruitmentNewService implements IRecuitmentNewService {
         return recruitmentNewRepository.findAllByCompany_Id(id);
     }
 
+    @Override
+    public RecuitmentNew search(SearchJob searchJob) {
+        return recruitmentNewRepository.search(searchJob.getTitle());
+    }
 
 
 }

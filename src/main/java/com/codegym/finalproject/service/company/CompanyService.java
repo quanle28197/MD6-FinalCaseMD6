@@ -46,6 +46,7 @@ public class CompanyService implements ICompanyService {
         return companyRepository.findAllByAccount_Id(id);
     }
 
+
     @Override
     public Boolean existByName(String name) {
         return companyRepository.existsByName(name);
@@ -58,6 +59,9 @@ public class CompanyService implements ICompanyService {
 
     @Override
     public List<Company> findByName(String name) {
+        if (name == null || name.equals("")) {
+            throw new IllegalArgumentException("Name is required");
+        }
         return companyRepository.findByName(name);
     }
 }

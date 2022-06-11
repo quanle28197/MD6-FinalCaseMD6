@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -136,10 +137,14 @@ public class CompanyController {
         return new ResponseEntity<>(companyList, HttpStatus.OK);
     }
 
-    @GetMapping("/find/{name}")
-    public ResponseEntity<List<Company>> findByName(@PathVariable String name) {
-        List<Company> list = companyService.findByName('%' + name + '%');
-        return new ResponseEntity<>(list,HttpStatus.OK);
+    @GetMapping("/search")
+    public ResponseEntity<List<Company>> findByName(@RequestParam("q") String query) {
+        try {
+            List<Company> list = companyService.findByName(query);
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
+        }
     }
 
 //    @PutMapping("/change_status")
