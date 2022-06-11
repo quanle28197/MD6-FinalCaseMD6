@@ -53,4 +53,9 @@ public class UserService implements IUserService {
     public UsernameAndPasswordUser findUsernameAndPassword(Long id) {
         return null;
     }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 }

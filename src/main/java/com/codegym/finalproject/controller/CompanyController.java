@@ -76,25 +76,6 @@ public class CompanyController {
     }
 
 
-//    public ResponseEntity<Company> updateCompany(@PathVariable Long id, @ModelAttribute CompanyForm companyForm) {
-//        Optional<Company> companyOptional = companyService.findById(id);
-//        companyForm.setId(companyOptional.get().getId());
-//        MultipartFile multipartFile = companyForm.getAvatar();
-//        String fileName = multipartFile.getOriginalFilename();
-//        String fileUpload = env.getProperty("upload.path");
-//        Company existCompany = new Company(id,companyForm.getCodeCompany() ,companyForm.getName(), fileName, companyForm.getDescription(),companyForm.getAddress(),companyForm.getEmplployeeQuantity(),companyForm.getCity(),companyForm.getLinkMap(),companyForm.getPhone(),companyForm.getStatusCompany(),companyForm.getAccount(),companyForm.getRecuitmentNews());
-//        try {
-//            FileCopyUtils.copy(multipartFile.getBytes(), new File(fileUpload + fileName));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        if (existCompany.getAvatar().equals("filename.jpg")){
-//            existCompany.setAvatar(companyOptional.get().getAvatar());
-//        }
-//        companyService.save(existCompany);
-//        return new ResponseEntity<>(existCompany, HttpStatus.OK);
-//    }
-
     @PutMapping("/{id}")
     public ResponseEntity<?> updateCompany(@PathVariable Long id, @RequestBody EditCompany editCompany) {
         Account account = userDetailServices.getCurrentUser();
@@ -224,9 +205,4 @@ public class CompanyController {
         return new ResponseEntity<>(new ResponseMessage("Yes"), HttpStatus.OK);
     }
 
-//    @PutMapping("/change_status")
-//    public ResponseEntity<?> updateCompanyStatus(@PathVariable Long id, @RequestBody StatusRequest statusRequest) {
-//        Account account = userDetailServices.getCurrentUser();
-//        if ()
-//    }
 }
