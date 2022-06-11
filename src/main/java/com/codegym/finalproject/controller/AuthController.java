@@ -78,9 +78,19 @@ public class AuthController {
                     );
                     roles.add(adminRole);
                     break;
+                case "company":
+                    Role pmRole = roleService.findByName(RoleName.COMPANY).orElseThrow(() -> new RuntimeException("Role not found"));
+                    roles.add(pmRole);
+                    int min = 10000000;
+                    int max = 99999999;
+                    String passwordNew = String.valueOf((int) Math.floor(Math.round((Math.random() * (max - min + 1) + min))));
+                    account.setPassword(passwordEncoder.encode(passwordNew));
+                    MailObject mailObject = new MailObject(from,account.getUsername(), "Hello from Find Job", "Your account is"+" \nusername:" +account.getUsername() + "\npassword: " + passwordNew );
+                    emailService.sendSimpleMessage(mailObject);
+                    break;
                 default:
                     Role userRole = roleService.findByName(RoleName.USER).orElseThrow(() -> new RuntimeException("Role not found"));
-                    MailObject mailObject1 = new MailObject(from, account.getUsername(), "Your Account Verified", "Your Account is: username: " + account.getUsername() + "\npassword: " + passwordOld);
+                    MailObject mailObject1 = new MailObject(from, account.getUsername(), "Hello from Find Job", "Your account is: username: " + account.getUsername() + "\npassword: " + passwordOld);
                     emailService.sendSimpleMessage(mailObject1);
                     roles.add(userRole);
             }
