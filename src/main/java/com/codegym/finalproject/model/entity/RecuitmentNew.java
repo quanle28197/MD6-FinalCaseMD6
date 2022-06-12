@@ -1,10 +1,13 @@
 package com.codegym.finalproject.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -27,7 +30,8 @@ public class RecuitmentNew {
     @ManyToOne(targetEntity = Vacancies.class)
     private Vacancies vacancies;
 
-    private LocalDate expDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date expDate;
 
     private String description;
 
