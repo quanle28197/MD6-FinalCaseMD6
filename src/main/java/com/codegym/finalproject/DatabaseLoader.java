@@ -19,20 +19,12 @@ public class DatabaseLoader implements CommandLineRunner {
     @Autowired
     private RoleService roleService;
 
-    @Autowired
-    private UserService userService;
-
-
 
     @Override
     public void run(String... args) throws Exception {
         if (!roleService.findByName(RoleName.USER).isPresent()) {
             roleService.save(new Role(RoleName.USER));
             System.out.println("INSERT ROLE USER");
-        }
-        if (!roleService.findByName(RoleName.COMPANY).isPresent()) {
-            roleService.save(new Role(RoleName.COMPANY));
-            System.out.println("INSERT ROLE COMPANY");
         }
     }
 }
