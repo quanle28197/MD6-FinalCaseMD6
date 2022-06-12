@@ -1,10 +1,10 @@
 package com.codegym.finalproject.controller;
 
 import com.codegym.finalproject.model.dto.CompanyForm;
-import com.codegym.finalproject.model.entity.Account;
-import com.codegym.finalproject.model.entity.City;
-import com.codegym.finalproject.model.entity.Company;
-import com.codegym.finalproject.model.entity.RecuitmentNew;
+import com.codegym.finalproject.model.dto.request.EditCompany;
+import com.codegym.finalproject.model.dto.request.StatusRequest;
+import com.codegym.finalproject.model.dto.response.ResponseMessage;
+import com.codegym.finalproject.model.entity.*;
 import com.codegym.finalproject.security.userprincipal.UserDetailServices;
 import com.codegym.finalproject.service.account.IAccountService;
 import com.codegym.finalproject.service.city.ICityService;
@@ -75,40 +75,75 @@ public class CompanyController {
         return new ResponseEntity<>(companyOptional.get(), HttpStatus.OK);
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<Company> updateCompany(@PathVariable Long id, @ModelAttribute CompanyForm companyForm) {
-        Optional<Company> companyOptional = companyService.findById(id);
-        companyForm.setId(companyOptional.get().getId());
-        MultipartFile multipartFile = companyForm.getAvatar();
-        String fileName = multipartFile.getOriginalFilename();
-        String fileUpload = env.getProperty("upload.path");
-        Company existCompany = new Company(id,companyForm.getCodeCompany() ,companyForm.getName(), fileName, companyForm.getDescription(),companyForm.getAddress(),companyForm.getEmplployeeQuantity(),companyForm.getCity(),companyForm.getLinkMap(),companyForm.getPhone(),companyForm.getStatusCompany(),companyForm.getAccount(),companyForm.getRecuitmentNews());
-        try {
-            FileCopyUtils.copy(multipartFile.getBytes(), new File(fileUpload + fileName));
-        } catch (IOException e) {
-            e.printStackTrace();
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateCompany(@PathVariable Long id, @RequestBody EditCompany editCompany) {
+        Account account = userDetailServices.getCurrentUser();
+        if (account.getUsername().equals("Anonymous")) {
+            return new ResponseEntity<>(new ResponseMessage("Please login!"), HttpStatus.OK);
         }
-        if (existCompany.getAvatar().equals("filename.jpg")){
-            existCompany.setAvatar(companyOptional.get().getAvatar());
+        Optional<Company> company1 = companyService.findById(id);
+        if (!company1.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        companyService.save(existCompany);
-        return new ResponseEntity<>(existCompany, HttpStatus.OK);
+
+        Boolean check = false;
+        if (companyService.existByName(editCompany.getName())) {
+            check = true;
+        }
+
+        if (editCompany.getAvatar() != null) {
+            company1.get().setAvatar(editCompany.getAvatar());
+        }
+        if (editCompany.getName() != null) {
+            company1.get().setName(editCompany.getName());
+        }
+        if (editCompany.getDescription() != null) {
+            company1.get().setDescription(editCompany.getDescription());
+        }
+        if (editCompany.getAddress() != null) {
+            company1.get().setAddress(editCompany.getAddress());
+        }
+        if (editCompany.getEmployeeQuantity() != null) {
+            company1.get().setEmplployeeQuantity(editCompany.getEmployeeQuantity());
+        }
+        if (editCompany.getLinkMap() != null) {
+            company1.get().setLinkMap(editCompany.getLinkMap());
+        }
+        if (editCompany.getPhone() != null) {
+            company1.get().setPhone(editCompany.getPhone());
+        }
+        //tao codeCompany
+        String nameex = company1.get().getName().substring(0, 3);
+        int min = 1000;
+        int max = 9999;
+        String codeCompany = String.valueOf((int) Math.floor(Math.round((Math.random() * (max - min + 1) + min))));
+        company1.get().setCodeCompany(nameex + company1.get().getAccount().getId() + codeCompany);
+        companyService.save(company1.get());
+        if (check == true) {
+            return new ResponseEntity<>(new ResponseMessage("trung ten roi"), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(new ResponseMessage("yes"), HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<Company> createCompany(@ModelAttribute CompanyForm companyForm) {
-        MultipartFile multipartFile = companyForm.getAvatar();
-        String fileName = multipartFile.getOriginalFilename();
-        String fileUpload = env.getProperty("upload.path");
-        try {
-            FileCopyUtils.copy(multipartFile.getBytes(), new File(fileUpload + fileName));
-        } catch (IOException e) {
-            e.printStackTrace();
+    @PostMapping("")
+    public ResponseEntity<?> createCompany(@RequestBody Company company) {
+        if (companyService.existByName(company.getName())) {
+            return new ResponseEntity<>(new ResponseMessage("this name is exist"), HttpStatus.OK);
         }
-        Company company = new Company(companyForm.getCodeCompany() ,companyForm.getName(), fileName, companyForm.getDescription(),companyForm.getAddress(),companyForm.getEmplployeeQuantity(),companyForm.getCity(),companyForm.getLinkMap(),companyForm.getPhone(),companyForm.getStatusCompany(),companyForm.getAccount(),companyForm.getRecuitmentNews());
-
+        //tao codeCompany
+        String nameex = company.getName().substring(0, 3);
+        int min = 1000;
+        int max = 9999;
+        String codeCompany = String.valueOf((int) Math.floor(Math.round((Math.random() * (max - min + 1) + min))));
+        System.out.println(codeCompany);
+        company.setCodeCompany(nameex + company.getAccount().getId() + codeCompany);
+        company.setStatusCompany(Status.HOT);
+        if (company.getAvatar() == null) {
+            return new ResponseEntity<>(new ResponseMessage("no_avatar_category"), HttpStatus.OK);
+        }
         companyService.save(company);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(new ResponseMessage("yes"), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -136,9 +171,38 @@ public class CompanyController {
         return new ResponseEntity<>(companyList, HttpStatus.OK);
     }
 
-//    @PutMapping("/change_status")
-//    public ResponseEntity<?> updateCompanyStatus(@PathVariable Long id, @RequestBody StatusRequest statusRequest) {
-//        Account account = userDetailServices.getCurrentUser();
-//        if ()
-//    }
+    @PutMapping("/change_status")
+    public ResponseEntity<?> updateCompany1(@PathVariable Long id, @RequestBody StatusRequest statusRequest) {
+        Account account = userDetailServices.getCurrentUser();
+        if (account.getUsername().equals("Anonymous")) {
+            return new ResponseEntity<>(new ResponseMessage("Please login"), HttpStatus.OK);
+        }
+        Optional<Company> company1 = companyService.findById(id);
+        if (!company1.isPresent()) {
+            if (statusRequest.getStatus() == 1) {
+                company1.get().setStatusCompany(Status.ACTIVE);
+            }
+            if (statusRequest.getStatus() == 2) {
+                company1.get().setStatusCompany(Status.NON_ACTIVE);
+            }
+            if (statusRequest.getStatus() == 3) {
+                company1.get().setStatusCompany(Status.LOCK);
+            }
+            if (statusRequest.getStatus() == 4) {
+                company1.get().setStatusCompany(Status.UNLOCK);
+            }
+            if (statusRequest.getStatus() == 5) {
+                company1.get().setStatusCompany(Status.HOT);
+            }
+            if (statusRequest.getStatus() == 6) {
+                company1.get().setStatusCompany(Status.WAIT);
+            }
+            if (statusRequest.getStatus() == 7) {
+                company1.get().setStatusCompany(Status.REJECT);
+            }
+            companyService.save(company1.get());
+        }
+        return new ResponseEntity<>(new ResponseMessage("Yes"), HttpStatus.OK);
+    }
+
 }

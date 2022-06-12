@@ -12,4 +12,6 @@ public interface IUserService extends IGeneralService<User> {
     Boolean existsByName(String name);
 
     UsernameAndPasswordUser findUsernameAndPassword(Long id);
+
+    Optional<User> findByEmail(String email);
 }
