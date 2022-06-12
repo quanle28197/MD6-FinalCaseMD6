@@ -1,4 +1,4 @@
-package com.codegym.finalproject.service;
+package com.codegym.finalproject.service.CV;
 
 import com.codegym.finalproject.model.entity.CV;
 import com.codegym.finalproject.repository.ICVRepository;

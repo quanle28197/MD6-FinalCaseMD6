@@ -1,5 +1,6 @@
 package com.codegym.finalproject.service.company;
 
+import com.codegym.finalproject.model.dto.response.CompanyRecruitmentNeed;
 import com.codegym.finalproject.model.entity.Company;
 import com.codegym.finalproject.repository.ICompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,5 +54,10 @@ public class CompanyService implements ICompanyService {
     @Override
     public List<Company> findCompanyByStatus(Integer stt) {
         return companyRepository.findCompanyByStatus(stt);
+    }
+
+    @Override
+    public List<CompanyRecruitmentNeed> findCompanyByRecuitmentNew() {
+        return companyRepository.findCompanyByRecuitmentNew();
     }
 }
