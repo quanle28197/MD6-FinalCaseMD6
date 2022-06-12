@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -50,9 +51,11 @@ public class RecruitmentNewService implements IRecuitmentNewService {
     }
 
     @Override
-    public RecuitmentNew search(SearchJob searchJob) {
-        return recruitmentNewRepository.search(searchJob.getTitle());
+    public List<RecuitmentNew> search(SearchJob searchJob) {
+        if (searchJob.getTitle().equals("")) {
+            return new ArrayList<>();
+        } else {
+            return recruitmentNewRepository.search(searchJob.getTitle());
+        }
     }
-
-
 }

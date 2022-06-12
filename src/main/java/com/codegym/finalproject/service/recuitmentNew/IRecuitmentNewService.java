@@ -9,5 +9,5 @@ import java.util.List;
 public interface IRecuitmentNewService extends IGeneralService<RecuitmentNew> {
     List<RecuitmentNew> findAllByCompany_Id(Long id);
 
-    RecuitmentNew search(SearchJob searchJob);
+    List<RecuitmentNew> search(SearchJob searchJob);
 }

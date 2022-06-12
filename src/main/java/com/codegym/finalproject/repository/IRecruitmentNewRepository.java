@@ -1,11 +1,9 @@
 package com.codegym.finalproject.repository;
 
-import com.codegym.finalproject.model.dto.request.SearchJob;
 import com.codegym.finalproject.model.entity.RecuitmentNew;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -31,7 +29,9 @@ public interface IRecruitmentNewRepository extends JpaRepository<RecuitmentNew, 
 
     @Query("SELECT r FROM RecuitmentNew r" +
             " LEFT JOIN Company c ON r.company.id = c.id" +
+            " LEFT JOIN City ci ON r.city.id = ci.id" +
             " WHERE lower(r.title) LIKE lower(CONCAT('%', :title, '%'))" +
-            " OR LOWER(c.name) LIKE LOWER(CONCAT('%', :title, '%')) ")
-    RecuitmentNew search(@Param("title") String title);
+            " OR LOWER(c.name) LIKE LOWER(CONCAT('%', :title, '%'))" +
+            " OR LOWER(ci.name) LIKE LOWER(CONCAT('%', :title, '%'))")
+    List<RecuitmentNew> search(@Param("title") String title);
 }
