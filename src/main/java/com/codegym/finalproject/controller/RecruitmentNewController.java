@@ -1,7 +1,9 @@
 package com.codegym.finalproject.controller;
 
 import com.codegym.finalproject.model.dto.response.ResponseMessage;
+import com.codegym.finalproject.model.entity.City;
 import com.codegym.finalproject.model.entity.RecuitmentNew;
+import com.codegym.finalproject.service.city.ICityService;
 import com.codegym.finalproject.service.recuitmentNew.RecruitmentNewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,8 @@ import java.util.Optional;
 public class RecruitmentNewController {
     @Autowired
     RecruitmentNewService recruitmentNewService;
+
+
 
     @GetMapping("/list")
     public ResponseEntity<?> showListRecruitmentNew() {
