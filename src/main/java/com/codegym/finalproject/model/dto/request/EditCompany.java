@@ -22,4 +22,71 @@ public class EditCompany {
         this.linkMap = linkMap;
         this.phone = phone;
     }
+
+    public EditCompany() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Integer getEmployeeQuantity() {
+        return employeeQuantity;
+    }
+
+    public void setEmployeeQuantity(Integer employeeQuantity) {
+        this.employeeQuantity = employeeQuantity;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
+    public String getLinkMap() {
+        return linkMap;
+    }
+
+    public void setLinkMap(String linkMap) {
+        this.linkMap = linkMap;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 }

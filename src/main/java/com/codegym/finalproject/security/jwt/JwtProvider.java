@@ -12,9 +12,9 @@ import java.util.Date;
 
 @Component
 public class JwtProvider {
-    private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class) ;
+    private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
     private String jwtSecret = "quanle.elv@gmail.com";
-    private int jwtExpiration = 28197;
+    private int jwtExpiration = 281977;
     public String createToken(Authentication authentication){
         UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
         return Jwts.builder().setSubject(userPrinciple.getUsername())

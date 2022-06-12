@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IWorkExpRepository extends JpaRepository<WorkExp, Long> {
     Iterable<WorkExp> findAllByCv_Id(Long id);
-    Boolean existByCv_Id(Long id);
+    Boolean existsByCv_Id(Long id);
 }

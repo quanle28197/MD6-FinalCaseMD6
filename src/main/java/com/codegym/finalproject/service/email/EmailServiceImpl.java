@@ -26,7 +26,7 @@ public class EmailServiceImpl implements EmailService  {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
 
             mimeMessageHelper.setSubject(mail.getMailSubject());
-            mimeMessageHelper.setFrom(new InternetAddress(mail.getMailFrom(), "quanLe"));
+            mimeMessageHelper.setFrom(new InternetAddress(mail.getMailFrom(), "Paso"));
             mimeMessageHelper.setTo(mail.getMailTo());
             mimeMessageHelper.setText(mail.getMailContent());
 

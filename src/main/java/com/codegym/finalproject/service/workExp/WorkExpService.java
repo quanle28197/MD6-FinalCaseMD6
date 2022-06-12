@@ -12,7 +12,7 @@ import java.util.Optional;
 @Service
 public class WorkExpService implements IWorkExpService{
     @Autowired
-    private IWorkExpRepository workExpRepository;
+    IWorkExpRepository workExpRepository;
 
     @Override
     public Iterable<WorkExp> findAll() {
@@ -45,7 +45,7 @@ public class WorkExpService implements IWorkExpService{
     }
 
     @Override
-    public Boolean existByCv_Id(Long id) {
-        return workExpRepository.existByCv_Id(id);
+    public Boolean existsByCv_Id(Long id) {
+        return workExpRepository.existsByCv_Id(id);
     }
 }

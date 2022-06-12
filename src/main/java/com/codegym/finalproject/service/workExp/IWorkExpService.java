@@ -6,6 +6,5 @@ import com.codegym.finalproject.service.IGeneralService;
 
 public interface IWorkExpService extends IGeneralService<WorkExp> {
     Iterable<WorkExp> findAllByCv_Id(Long id);
-
-    Boolean existByCv_Id(Long id);
+    Boolean existsByCv_Id(Long id);
 }

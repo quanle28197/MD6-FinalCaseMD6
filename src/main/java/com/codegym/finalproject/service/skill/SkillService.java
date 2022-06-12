@@ -12,7 +12,7 @@ import java.util.Optional;
 @Service
 public class SkillService implements ISkillService{
     @Autowired
-    private ISkillRepository skillRepository;
+    ISkillRepository skillRepository;
 
     @Override
     public Iterable<Skill> findAll() {
@@ -45,12 +45,12 @@ public class SkillService implements ISkillService{
     }
 
     @Override
-    public Boolean existByCv_Id(Long id) {
-        return skillRepository.existByCv_Id(id);
+    public Boolean existsByCv_Id(Long id) {
+        return skillRepository.existsByCv_Id(id);
     }
 
     @Override
-    public boolean existById(Long id) {
-        return skillRepository.existById(id);
+    public boolean existsById(Long id) {
+        return skillRepository.existsById(id);
     }
 }
