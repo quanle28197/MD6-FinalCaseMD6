@@ -18,7 +18,7 @@ public interface IRecruitmentNewRepository extends JpaRepository<RecuitmentNew, 
             " and (:companyId is null or r.company.id = :companyId)" +
             " and (:vacancies is null or r.vacancies.id = :vacancies)" +
             " and (:workingTimeId is null or r.workingTime.id = :workingTimeId) and (r.salary >= :salary or :salary IS NULL)" +
-            " and r.status = TRUE and r.company.account.status <> 'LOCK'" )
+            " and r.status = TRUE and r.company.account.status <> 'LOCK'")
     Long countTotalRecords(@Param("title") String title,
                            @Param("cityId") Long cityId,
                            @Param("fieldId") Long fieldId,
@@ -27,6 +27,7 @@ public interface IRecruitmentNewRepository extends JpaRepository<RecuitmentNew, 
                            @Param("workingTimeId") Long workingTimeId,
                            @Param("salary") Integer salary);
 
+    //  Tìm kiếm job theo công ty và thành phố
     @Query("SELECT r FROM RecuitmentNew r" +
             " LEFT JOIN Company c ON r.company.id = c.id" +
             " LEFT JOIN City ci ON r.city.id = ci.id" +

@@ -17,8 +17,9 @@ public class SearchAdvancedController {
     @Autowired
     private RecruitmentNewService recruimentService;
 
+    //  Tìm kiếm job theo thành phố và công ty
     @PostMapping
-    public ResponseEntity<?> search(@RequestBody SearchJob searchJob) {
+    public ResponseEntity<?> searchJobByCompAndCity(@RequestBody SearchJob searchJob) {
         try {
             return new ResponseEntity<>(recruimentService.search(searchJob), HttpStatus.OK);
         } catch (Exception e) {
@@ -26,5 +27,6 @@ public class SearchAdvancedController {
             return new ResponseEntity<>("Not found", HttpStatus.OK);
         }
     }
+    //  Tìm kiếm job theo
 
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 @Service
 public class RecruitmentNewService implements IRecuitmentNewService {
     @Autowired
@@ -50,6 +51,7 @@ public class RecruitmentNewService implements IRecuitmentNewService {
         return recruitmentNewRepository.findAllByCompany_Id(id);
     }
 
+    // Tìm kiếm job theo công ty và thành phố
     @Override
     public List<RecuitmentNew> search(SearchJob searchJob) {
         if (searchJob.getTitle().equals("")) {
