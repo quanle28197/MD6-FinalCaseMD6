@@ -5,6 +5,7 @@ import com.codegym.finalproject.model.entity.RecuitmentNew;
 import com.codegym.finalproject.service.recuitmentNew.RecruitmentNewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,17 +28,21 @@ public class RecruitmentNewController {
         return new ResponseEntity<>(recuitmentNewList, HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<?> createRecruitmentNew(@RequestBody RecuitmentNew recuitmentNew) {
+    @PostMapping( consumes = { "multipart/form-data" })
+    public ResponseEntity<?> createRecruitmentNew(@ModelAttribute RecuitmentNew recuitmentNew) {
         if (recuitmentNew.getQuantity() == null) {
             return new ResponseEntity<>(new ResponseMessage("no_quantity"), HttpStatus.OK);
         }
         //tao codeCompany
-        String nameex = recuitmentNew.getTitle().substring(0, 3);
+        String nameex;
+        if (recuitmentNew.getTitle() != null && recuitmentNew.getTitle().length() > 3) {
+            nameex = recuitmentNew.getTitle().substring(0, 3);
+        } else {
+            nameex = "";
+        }
         int min = 100;
         int max = 999;
         String nameCompany = String.valueOf((int) Math.floor(Math.round((Math.random() * (max - min + 1) + min))));
-        ;
         recuitmentNew.setCodeNews(nameex + nameCompany);
         System.out.println(recuitmentNew.getCodeNews());
         recuitmentNew.setStatus(true);

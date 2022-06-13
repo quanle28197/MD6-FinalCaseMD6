@@ -48,7 +48,12 @@ public class CompanyController {
             return new ResponseEntity<>(new ResponseMessage("no_name_category"), HttpStatus.OK);
         }
         //tao codeCompany
-        String nameex = company.getName().substring(0, 3);
+        String nameex;
+        if (company.getName() != null && company.getName().length() > 3) {
+            nameex = company.getName().substring(0, 3);
+        } else  {
+            nameex = "";
+        }
         int min = 1000;
         int max = 9999;
         String codeCompany = String.valueOf((int) Math.floor(Math.round((Math.random() * (max - min + 1) + min))));
@@ -60,6 +65,9 @@ public class CompanyController {
             return new ResponseEntity<>(new ResponseMessage("no_avatar_category"), HttpStatus.OK);
         }
         companyService.save(company);
+        Account account = accountService.findById(company.getAccount().getId()).get();
+        MailObject mailObject = new MailObject(from, account.getUsername(),"Your account is verify", "Submit to verify your account: " + "\n http://localhost:4200/active-status/"+account.getId());
+        emailService.sendSimpleMessage(mailObject);
         return new ResponseEntity<>(new ResponseMessage("yes"), HttpStatus.OK);
     }
 

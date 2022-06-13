@@ -173,4 +173,19 @@ public class AuthController {
         accountService.save(account.get());
         return new ResponseEntity<>(account.get(), HttpStatus.OK);
     }
+
+    @PutMapping("/editStatusAccount/{id}")
+    public ResponseEntity<?> editStatus(@PathVariable Long id) {
+        Optional<Account> accountOptional = accountService.findById(id);
+        if (accountOptional.get().getStatus().equals(Status.NON_ACTIVE)) {
+            accountOptional.get().setStatus2(true);
+            accountOptional.get().setStatus(Status.ACTIVE);
+        } else {
+            accountOptional.get().setStatus2(false);
+            accountOptional.get().setStatus(Status.NON_ACTIVE);
+
+        }
+        accountService.save(accountOptional.get());
+        return new ResponseEntity<>(new ResponseMessage("yes"), HttpStatus.OK);
+    }
 }

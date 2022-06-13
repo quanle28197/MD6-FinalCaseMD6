@@ -1,13 +1,13 @@
-package com.codegym.finalproject.service;
+package com.codegym.finalproject.service.apply;
 
 import com.codegym.finalproject.model.dto.response.ApplyShowAll;
 import com.codegym.finalproject.model.entity.Apply;
 import com.codegym.finalproject.repository.IApplyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.util.Optional;
 
 @Service
@@ -20,10 +20,9 @@ public class ApplyService implements IApplyService {
     }
 
     @Override
-    public Page<Apply> findAll(org.springframework.data.domain.Pageable pageable) {
+    public Page<Apply> findAll(Pageable pageable) {
         return applyRepository.findAll(pageable);
     }
-
 
     @Override
     public void deleteById(Long id) {
@@ -48,6 +47,11 @@ public class ApplyService implements IApplyService {
     @Override
     public Page<Apply> findAllByUserId(Pageable pageable, Long id) {
         return applyRepository.findAllByUser_Id(pageable,id);
+    }
+
+    @Override
+    public Page<ApplyShowAll> findAllByCompanyId(java.awt.print.Pageable page, Long id) {
+        return null;
     }
 
     @Override
