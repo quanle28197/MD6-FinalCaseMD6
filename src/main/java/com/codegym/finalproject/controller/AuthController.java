@@ -11,6 +11,7 @@ import com.codegym.finalproject.model.entity.*;
 import com.codegym.finalproject.security.jwt.JwtProvider;
 import com.codegym.finalproject.security.userprincipal.UserDetailServices;
 import com.codegym.finalproject.security.userprincipal.UserPrinciple;
+import com.codegym.finalproject.service.company.CompanyService;
 import com.codegym.finalproject.service.email.EmailServiceImpl;
 import com.codegym.finalproject.service.account.AccountService;
 import com.codegym.finalproject.service.role.RoleService;
@@ -57,6 +58,9 @@ public class AuthController {
     UserService userService;
 
     @Autowired
+    CompanyService companyService;
+
+    @Autowired
     EmailServiceImpl emailService;
 
     @Value("${spring.mail.username}")
@@ -74,7 +78,9 @@ public class AuthController {
         strRoles.forEach(role -> {
             switch (role) {
                 case "admin":
-                    Role adminRole = roleService.findByName(RoleName.ADMIN).orElseThrow(() -> new RuntimeException("Role not found"));
+                    Role adminRole = roleService.findByName(RoleName.ADMIN).orElseThrow(
+                            () -> new RuntimeException("Role not found")
+                    );
                     roles.add(adminRole);
                     break;
                 case "company":
@@ -84,12 +90,12 @@ public class AuthController {
                     int max = 99999999;
                     String passwordNew = String.valueOf((int) Math.floor(Math.round((Math.random() * (max - min + 1) + min))));
                     account.setPassword(passwordEncoder.encode(passwordNew));
-                    MailObject mailObject = new MailObject(from, account.getUsername(), "Hello from Find Job", "Your account is" + " \nusername:" + account.getUsername() + "\npassword: " + passwordNew);
+                    MailObject mailObject = new MailObject("findJob@job.com",account.getUsername(), "Account Paso Verified", "Tài Khoản Của Bạn Là"+" \nusername:" +account.getUsername() + "\npassword: " + passwordNew );
                     emailService.sendSimpleMessage(mailObject);
                     break;
                 default:
                     Role userRole = roleService.findByName(RoleName.USER).orElseThrow(() -> new RuntimeException("Role not found"));
-                    MailObject mailObject1 = new MailObject(from, account.getUsername(), "Hello from Find Job", "Your account is: username: " + account.getUsername() + "\npassword: " + passwordOld);
+                    MailObject mailObject1 = new MailObject("findJob@job.com", account.getUsername(), "Account Paso Verified", "Tài khoản của bạn là: username: " + account.getUsername() + "\npassword: " + passwordOld);
                     emailService.sendSimpleMessage(mailObject1);
                     roles.add(userRole);
             }
@@ -101,32 +107,39 @@ public class AuthController {
         return new ResponseEntity<>(new ResponeAccount("Yes", account.getId()), HttpStatus.OK);
     }
 
+
+
+
     @PostMapping("/signin")
     public ResponseEntity<?> login(@RequestBody SignInForm signInForm) {
-        try {
-            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signInForm.getUsername(), signInForm.getPassword()));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            String token = jwtProvider.createToken(authentication);
-            UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
-            Long id = ((UserPrinciple) authentication.getPrincipal()).getId();
-            String a = authentication.getAuthorities().toString();
-            Long idCustom = -1L;
 
-            if (userPrinciple.getStatus().equalsIgnoreCase(String.valueOf(Status.NON_ACTIVE))) {
-                return new ResponseEntity<>(new ResponseBody("0002", "Tài khoản chưa kích hoạt. Vui lòng kích hoạt tài khoản trước!", null), HttpStatus.OK);
-            }
-            if (a.equals("[USER]")) {
-                Optional<User> user = userService.findByAccount_Id(id);
-                idCustom = user.get().getId();
-            }
-            if (a.equals("[ADMIN]")) {
-                idCustom = -10L;
-            }
-            return ResponseEntity.ok(new ResponseBody("0000", "success", new JwtResponse(id, idCustom, token, userPrinciple.getUsername(), userPrinciple.getAuthorities())));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(new ResponseBody("0001", "Bạn nhập sai tài khoản hoặc mật khẩu!", null), HttpStatus.OK);
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(signInForm.getUsername(), signInForm.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String token = jwtProvider.createToken(authentication);
+        UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
+        Long id = ((UserPrinciple) authentication.getPrincipal()).getId();
+        String a = authentication.getAuthorities().toString();
+        Long idCustom = -1L;
+//        System.out.println("dinh " + userPrinciple.getStatus().);
+
+        if (userPrinciple.getStatus().equalsIgnoreCase(String.valueOf(Status.NON_ACTIVE))){
+            return new ResponseEntity<>(new ResponseMessage("LOCK"),HttpStatus.OK);
         }
+        if (a.equals("[COMPANY]")) {
+            Optional<Company> company = companyService.findAllByAccount_Id(id);
+            idCustom = company.get().getId();
+        }
+        if (a.equals("[USER]")) {
+            Optional<User> user = userService.findByAccount_Id(id);
+            idCustom = user.get().getId();
+        }
+        if (a.equals("[ADMIN]")) {
+            idCustom = -10L;
+        }
+
+
+        return ResponseEntity.ok(new JwtResponse(id, idCustom, token, userPrinciple.getUsername(), userPrinciple.getAuthorities()));
     }
 
     @PutMapping("/change-password")

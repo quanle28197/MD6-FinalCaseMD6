@@ -28,21 +28,17 @@ public class RecruitmentNewController {
         return new ResponseEntity<>(recuitmentNewList, HttpStatus.OK);
     }
 
-    @PostMapping( consumes = { "multipart/form-data" })
-    public ResponseEntity<?> createRecruitmentNew(@ModelAttribute RecuitmentNew recuitmentNew) {
+    @PostMapping
+    public ResponseEntity<?> createRecruitmentNew(@RequestBody RecuitmentNew recuitmentNew) {
         if (recuitmentNew.getQuantity() == null) {
             return new ResponseEntity<>(new ResponseMessage("no_quantity"), HttpStatus.OK);
         }
         //tao codeCompany
-        String nameex;
-        if (recuitmentNew.getTitle() != null && recuitmentNew.getTitle().length() > 3) {
-            nameex = recuitmentNew.getTitle().substring(0, 3);
-        } else {
-            nameex = "";
-        }
+        String nameex = recuitmentNew.getTitle().substring(0, 3);
         int min = 100;
         int max = 999;
         String nameCompany = String.valueOf((int) Math.floor(Math.round((Math.random() * (max - min + 1) + min))));
+        ;
         recuitmentNew.setCodeNews(nameex + nameCompany);
         System.out.println(recuitmentNew.getCodeNews());
         recuitmentNew.setStatus(true);
