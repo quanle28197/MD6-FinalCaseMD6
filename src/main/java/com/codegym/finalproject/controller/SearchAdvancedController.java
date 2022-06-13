@@ -27,6 +27,16 @@ public class SearchAdvancedController {
             return new ResponseEntity<>("Not found", HttpStatus.OK);
         }
     }
-    //  Tìm kiếm job theo
+
+    //  Tìm kiếm job theo ngành nghề, địa chỉ
+    @PostMapping("/field")
+    public ResponseEntity<?> searchJobByField(@RequestBody SearchJob searchJob) {
+        try {
+            return new ResponseEntity<>(recruimentService.searchByField(searchJob), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Not found", HttpStatus.OK);
+        }
+    }
 
 }

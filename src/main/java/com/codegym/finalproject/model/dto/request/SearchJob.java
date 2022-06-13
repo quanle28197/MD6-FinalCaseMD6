@@ -4,7 +4,6 @@ public class SearchJob {
     private String title;
     private String skill;
     private String companyName;
-
     private Long cityId;
 
     private Long fieldId;
@@ -13,7 +12,7 @@ public class SearchJob {
 
     private Long vacancies;
 
-    private Long  workingTimeId;
+    private Long workingTimeId;
 
     private Integer start;
 
@@ -100,12 +99,13 @@ public class SearchJob {
     public void setStart(Integer start) {
         this.start = start;
     }
-    public void setPageSize(Integer pageSize) {
-        this.pageSize = pageSize;
-    }
 
     public Integer getPageSize() {
         return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
     }
 
     public Integer getSalary() {
