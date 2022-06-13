@@ -39,4 +39,14 @@ public class SearchAdvancedController {
         }
     }
 
+    // Tìm kiếm nhanh job theo ngành nghề
+    @PostMapping("/q-search/field")
+    public ResponseEntity<?> quickSearchByField(@RequestBody SearchJob searchJob) {
+        try {
+            return new ResponseEntity<>(recruimentService.quickSearchByField(searchJob), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Not found", HttpStatus.OK);
+        }
+    }
 }

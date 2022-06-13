@@ -27,3 +27,8 @@ FROM Recuitmentnew r
 WHERE lower(r.title) LIKE lower(CONCAT('%', :title, '%'))
    or lower(ci.name) like lower(concat('%', :title, '%'))
    or lower(f.name) like lower(concat('%', :title, '%')); # Theo cả ngành nghề và thành phố
+
+select *
+from recuitmentnew r
+         right join field f on r.field_id = f.id
+where lower(f.name) like lower(concat('%', :title, '%')); # Tìm kiếm nhanh Job theo chuyên ngành

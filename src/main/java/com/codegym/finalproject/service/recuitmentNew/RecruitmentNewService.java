@@ -70,4 +70,14 @@ public class RecruitmentNewService implements IRecuitmentNewService {
             return recruitmentNewRepository.searchByField(searchJob.getTitle());
         }
     }
+
+    // Tìm kiếm NHANH job theo ngành nghề
+    @Override
+    public List<RecuitmentNew> quickSearchByField(SearchJob searchJob) {
+        if (searchJob.getTitle().equals("")) {
+            return new ArrayList<>();
+        } else {
+            return recruitmentNewRepository.quickSearchByField(searchJob.getTitle());
+        }
+    }
 }
