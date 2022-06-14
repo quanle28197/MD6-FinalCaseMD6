@@ -5,10 +5,7 @@ import com.codegym.finalproject.service.recuitmentNew.RecruitmentNewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/search")
@@ -18,7 +15,7 @@ public class SearchAdvancedController {
     private RecruitmentNewService recruimentService;
 
     //  Tìm kiếm job theo thành phố và công ty
-    @PostMapping
+    @GetMapping
     public ResponseEntity<?> searchJobByCompAndCity(@RequestBody SearchJob searchJob) {
         try {
             return new ResponseEntity<>(recruimentService.search(searchJob), HttpStatus.OK);
@@ -29,7 +26,7 @@ public class SearchAdvancedController {
     }
 
     //  Tìm kiếm job theo ngành nghề, địa chỉ
-    @PostMapping("/field")
+    @GetMapping("/field")
     public ResponseEntity<?> searchJobByField(@RequestBody SearchJob searchJob) {
         try {
             return new ResponseEntity<>(recruimentService.searchByField(searchJob), HttpStatus.OK);
@@ -40,7 +37,7 @@ public class SearchAdvancedController {
     }
 
     // Tìm kiếm nhanh job theo ngành nghề
-    @PostMapping("/q-search/field")
+    @GetMapping("/q-search/field")
     public ResponseEntity<?> quickSearchByField(@RequestBody SearchJob searchJob) {
         try {
             return new ResponseEntity<>(recruimentService.quickSearchByField(searchJob), HttpStatus.OK);
@@ -51,11 +48,11 @@ public class SearchAdvancedController {
     }
 
     // Tìm kiếm NHANH job theo địa chỉ
-    @PostMapping("/q-search/city")
-    public ResponseEntity<?> quickSearchByCity(@RequestBody SearchJob searchJob){
+    @GetMapping("/q-search/city")
+    public ResponseEntity<?> quickSearchByCity(@RequestBody SearchJob searchJob) {
         try {
             return new ResponseEntity<>(recruimentService.quickSearchByCity(searchJob), HttpStatus.OK);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>("Not Found", HttpStatus.OK);
         }
