@@ -80,4 +80,15 @@ public class RecruitmentNewService implements IRecuitmentNewService {
             return recruitmentNewRepository.quickSearchByField(searchJob.getTitle());
         }
     }
+
+    // Tìm kiếm NHANH job theo địa chỉ
+
+    @Override
+    public List<RecuitmentNew> quickSearchByCity(SearchJob searchJob) {
+        if (searchJob.getTitle().equals("")){
+            return new ArrayList<>();
+        }else {
+            return recruitmentNewRepository.quickSearchByCity(searchJob.getTitle());
+        }
+    }
 }

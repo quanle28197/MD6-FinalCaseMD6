@@ -32,3 +32,5 @@ select *
 from recuitmentnew r
          right join field f on r.field_id = f.id
 where lower(f.name) like lower(concat('%', :title, '%')); # Tìm kiếm nhanh Job theo chuyên ngành
+
+select * from recuitmentnew r left join city ci on r.city_id = ci.id where lower(ci.name) like lower(concat('%', :title ,'%'));

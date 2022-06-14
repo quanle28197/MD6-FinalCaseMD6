@@ -45,6 +45,7 @@ public interface IRecruitmentNewRepository extends JpaRepository<RecuitmentNew, 
             "or lower(f.name) like lower(concat('%', :title, '%'))")
     List<RecuitmentNew> searchByField(@Param("title") String title);
 
+    // Tìm kiếm nhanh Job theo ngành nghề
     @Query("SELECT r FROM RecuitmentNew r " +
             "left join Field f on r.field.id = f.id " +
             "left join City ci on r.city.id = ci.id " +
@@ -52,4 +53,10 @@ public interface IRecruitmentNewRepository extends JpaRepository<RecuitmentNew, 
             "or LOWER(ci.name) like lower(concat('%', :title, '%')) " +
             "or lower(f.name) like lower(concat('%', :title, '%'))")
     List<RecuitmentNew> quickSearchByField(@Param("title") String title);
+
+    // Tìm kiếm nhanh Job theo địa chỉ
+    @Query("select r from RecuitmentNew r " +
+            "left join City ci on r.city.id = ci.id " +
+            "where lower(ci.name) like lower(concat('%', :title ,'%'))")
+    List<RecuitmentNew> quickSearchByCity(@Param("title") String title);
 }
