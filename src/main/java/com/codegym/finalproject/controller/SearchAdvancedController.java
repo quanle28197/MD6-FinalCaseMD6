@@ -49,10 +49,10 @@ public class SearchAdvancedController {
     }
 
     // Tìm kiếm NHANH job theo địa chỉ
-    @GetMapping("/q-search/city")
-    public ResponseEntity<?> quickSearchByCity(@RequestBody SearchJob searchJob) {
+    @GetMapping("/city")
+    public ResponseEntity<?> quickSearchByCity(@RequestParam("query") String data) {
         try {
-            return new ResponseEntity<>(recruimentService.quickSearchByCity(searchJob), HttpStatus.OK);
+            return new ResponseEntity<>(recruimentService.quickSearchByCity(new SearchJob(data)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>("Not Found", HttpStatus.OK);
