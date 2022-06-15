@@ -9,13 +9,14 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/search")
+@CrossOrigin("*")
 public class SearchAdvancedController {
 
     @Autowired
     private RecruitmentNewService recruimentService;
 
     //  Tìm kiếm job theo thành phố và công ty
-    @GetMapping
+    @GetMapping("them duong dan vao day")
     public ResponseEntity<?> searchJobByCompAndCity(@RequestBody SearchJob searchJob) {
         try {
             return new ResponseEntity<>(recruimentService.search(searchJob), HttpStatus.OK);
@@ -37,10 +38,10 @@ public class SearchAdvancedController {
     }
 
     // Tìm kiếm nhanh job theo ngành nghề
-    @GetMapping("/q-search/field")
-    public ResponseEntity<?> quickSearchByField(@RequestBody SearchJob searchJob) {
+    @GetMapping
+    public ResponseEntity<?> quickSearchByField(@RequestParam("query") String field) {
         try {
-            return new ResponseEntity<>(recruimentService.quickSearchByField(searchJob), HttpStatus.OK);
+            return new ResponseEntity<>(recruimentService.quickSearchByField(new SearchJob(field)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>("Not found", HttpStatus.OK);
