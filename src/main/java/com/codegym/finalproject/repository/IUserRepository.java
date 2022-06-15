@@ -12,4 +12,5 @@ public interface IUserRepository extends JpaRepository<User, Long> {
 
     Boolean existsByName(String name);
 
+
 }

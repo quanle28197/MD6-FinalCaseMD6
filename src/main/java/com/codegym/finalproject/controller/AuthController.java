@@ -5,7 +5,6 @@ import com.codegym.finalproject.model.dto.request.SignInForm;
 import com.codegym.finalproject.model.dto.request.SignUpForm;
 import com.codegym.finalproject.model.dto.response.JwtResponse;
 import com.codegym.finalproject.model.dto.response.ResponeAccount;
-import com.codegym.finalproject.model.dto.response.ResponseBody;
 import com.codegym.finalproject.model.dto.response.ResponseMessage;
 import com.codegym.finalproject.model.entity.*;
 import com.codegym.finalproject.security.jwt.JwtProvider;
@@ -26,6 +25,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
 
 import javax.validation.Valid;
 import java.util.HashSet;
@@ -121,7 +121,6 @@ public class AuthController {
         Long id = ((UserPrinciple) authentication.getPrincipal()).getId();
         String a = authentication.getAuthorities().toString();
         Long idCustom = -1L;
-//        System.out.println("dinh " + userPrinciple.getStatus().);
 
         if (userPrinciple.getStatus().equalsIgnoreCase(String.valueOf(Status.NON_ACTIVE))){
             return new ResponseEntity<>(new ResponseMessage("LOCK"),HttpStatus.OK);
@@ -201,4 +200,5 @@ public class AuthController {
         accountService.save(accountOptional.get());
         return new ResponseEntity<>(new ResponseMessage("yes"), HttpStatus.OK);
     }
+
 }

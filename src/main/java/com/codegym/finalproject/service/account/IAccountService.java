@@ -1,6 +1,7 @@
 package com.codegym.finalproject.service.account;
 
 import com.codegym.finalproject.model.entity.Account;
+import com.codegym.finalproject.model.entity.User;
 import com.codegym.finalproject.service.IGeneralService;
 import org.springframework.stereotype.Service;
 

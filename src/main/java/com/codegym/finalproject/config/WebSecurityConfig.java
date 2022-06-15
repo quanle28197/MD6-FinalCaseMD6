@@ -1,6 +1,5 @@
 package com.codegym.finalproject.config;
 
-
 import com.codegym.finalproject.security.jwt.JwtEntryPoint;
 import com.codegym.finalproject.security.jwt.JwtTokenFilter;
 import com.codegym.finalproject.security.userprincipal.UserDetailServices;
@@ -17,6 +16,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 
 @Configuration
 @EnableWebSecurity

@@ -26,4 +26,12 @@ public interface IRecruitmentNewRepository extends JpaRepository<RecuitmentNew, 
                            @Param("vacancies") Long vacancies,
                            @Param("workingTimeId") Long workingTimeId,
                            @Param("salary") Integer salary);
+
+    @Query("SELECT r FROM RecuitmentNew r " +
+            "left join Field f on r.field.id = f.id " +
+            "left join City ci on r.city.id = ci.id " +
+            "WHERE lower(r.title) like lower(concat('%', :title, '%')) " +
+            "or LOWER(ci.name) like lower(concat('%', :title, '%')) " +
+            "or lower(f.name) like lower(concat('%', :title, '%'))")
+    List<RecuitmentNew> quickSearchByField(@Param("title") String title);
 }

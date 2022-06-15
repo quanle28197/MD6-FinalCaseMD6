@@ -13,8 +13,8 @@ import java.util.Date;
 @Component
 public class JwtProvider {
     private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
-    private String jwtSecret = "quanle.elv@gmail.com";
-    private int jwtExpiration = 281977;
+    private String jwtSecret = "admin@gmail.com";
+    private int jwtExpiration = 1234;
     public String createToken(Authentication authentication){
         UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
         return Jwts.builder().setSubject(userPrinciple.getUsername())

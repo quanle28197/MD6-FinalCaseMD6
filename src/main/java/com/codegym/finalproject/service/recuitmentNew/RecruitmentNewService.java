@@ -1,5 +1,6 @@
 package com.codegym.finalproject.service.recuitmentNew;
 
+import com.codegym.finalproject.model.dto.request.SearchJob;
 import com.codegym.finalproject.model.entity.RecuitmentNew;
 import com.codegym.finalproject.repository.IRecruitmentNewRepository;
 import com.codegym.finalproject.repository.IRecuitmentnewDAO;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -46,6 +48,15 @@ public class RecruitmentNewService implements IRecuitmentNewService {
     @Override
     public List<RecuitmentNew> findAllByCompany_Id(Long id) {
         return recruitmentNewRepository.findAllByCompany_Id(id);
+    }
+
+    @Override
+    public List<RecuitmentNew> quickSearchByField(SearchJob searchJob) {
+        if (searchJob.getTitle().equals("")) {
+            return new ArrayList<>();
+        } else {
+            return recruitmentNewRepository.quickSearchByField(searchJob.getTitle());
+        }
     }
 
 

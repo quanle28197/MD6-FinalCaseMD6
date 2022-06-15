@@ -84,7 +84,7 @@ public class ApplyController {
         Company companyCurrent = companyService.findById(forwardApply.getIdCompany()).get();
         User userCurrent = userService.findById(forwardApply.getIdUser()).get();
         LocalDate dateApply = LocalDate.now().plusDays(3) ;
-        MailObject mailObject = new MailObject(from,userCurrent.getAccount().getUsername(), "Thông báo tuyển dụng", "Công ty " + companyCurrent.getName() + " đã chấp nhận đơn ứng tuyển của bạn " + userCurrent.getName() + ". Lịch phỏng vấn của bạn với công ty vào ngày " + dateApply +". Hãy liên hệ với công ty bạn ứng tuyển để biết thêm chi tiết !!");
+        MailObject mailObject = new MailObject(from,userCurrent.getAccount().getUsername(), "Thông báo tuyển dụng: ", "Công ty " + companyCurrent.getName() + " đã chấp nhận đơn ứng tuyển của bạn " + userCurrent.getName() + ". Lịch phỏng vấn của bạn với công ty sẽ vào ngày " + dateApply +". Hãy liên hệ với công ty bạn ứng tuyển để biết thêm chi tiết !!");
         emailService.sendSimpleMessage(mailObject);
         return new ResponseEntity<>(new ResponseMessage("yes"), HttpStatus.OK);
     }
@@ -125,7 +125,7 @@ public class ApplyController {
         }
         if(changeStatusApply.getStatus() == 1){
             if(check){
-                return new ResponseEntity<>(new ResponseMessage("Nhân viên đã được apcept bởi công ty khác"), HttpStatus.OK);
+                return new ResponseEntity<>(new ResponseMessage("Nhân viên đã được chấp nhận bởi công ty khác"), HttpStatus.OK);
             }
             apply.setStatus(Status.ACCEPT);
             applyService.save(apply);
@@ -134,7 +134,7 @@ public class ApplyController {
             LocalDate dateApply = LocalDate.now().plusDays(3) ;
             MailObject mailObject = new MailObject("findJob@job.com",userCurrent.getAccount().getUsername(), "Thông báo tuyển dụng", "Công ty " + companyCurrent.getName() + " đã chấp nhận đơn ứng tuyển của bạn " + userCurrent.getName() + ". Lịch phỏng vấn của bạn với công ty vào ngày " + dateApply +". Hãy liên hệ với công ty bạn ứng tuyển để biết thêm chi tiết !!");
             emailService.sendSimpleMessage(mailObject);
-            return new ResponseEntity<>(new ResponseMessage("Nhân viên đã được apcept thành công"), HttpStatus.OK);
+            return new ResponseEntity<>(new ResponseMessage("Nhân viên đã được chấp nhận thành công"), HttpStatus.OK);
 
         }
         if(changeStatusApply.getStatus() == 0){

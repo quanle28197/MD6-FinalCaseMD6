@@ -8,6 +8,7 @@ import com.codegym.finalproject.service.user.UserService;
 import org.apache.catalina.authenticator.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -30,5 +31,10 @@ public class DatabaseLoader implements CommandLineRunner {
             roleService.save(new Role(RoleName.COMPANY));
             System.out.println("INSERT ROLE COMPANY");
         }
+        if (!roleService.findByName(RoleName.ADMIN).isPresent()) {
+            roleService.save(new Role(RoleName.ADMIN));
+            System.out.println("INSERT ROLE ADMIN");
+        }
+
     }
 }

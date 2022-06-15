@@ -6,6 +6,7 @@ import com.codegym.finalproject.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -14,6 +15,9 @@ import java.util.Optional;
 public class UserService implements IUserService {
     @Autowired
     private IUserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Override
     public Iterable<User> findAll() {
         return userRepository.findAll();
@@ -53,5 +57,6 @@ public class UserService implements IUserService {
     public UsernameAndPasswordUser findUsernameAndPassword(Long id) {
         return null;
     }
+
 
 }

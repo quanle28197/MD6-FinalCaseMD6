@@ -1,5 +1,6 @@
 package com.codegym.finalproject.controller;
 
+import com.codegym.finalproject.model.dto.request.SearchJob;
 import com.codegym.finalproject.model.dto.response.ResponseMessage;
 import com.codegym.finalproject.model.entity.RecuitmentNew;
 import com.codegym.finalproject.service.recuitmentNew.RecruitmentNewService;
@@ -97,6 +98,17 @@ public class RecruitmentNewController {
     public ResponseEntity<?> findAllByCompany(@PathVariable Long id) {
         return new ResponseEntity<>(recruitmentNewService.findAllByCompany_Id(id), HttpStatus.OK);
     }
+
+    @GetMapping("/quick-search")
+    public ResponseEntity<?> quickSearchByField(@RequestParam("query") String field) {
+        try {
+            return new ResponseEntity<>(recruitmentNewService.quickSearchByField(new SearchJob(field)), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Not found", HttpStatus.OK);
+        }
+    }
+
 
 
     @PutMapping("/editStatus/{id}")
