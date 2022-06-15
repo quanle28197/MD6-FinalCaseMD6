@@ -10,4 +10,7 @@ public interface IRecuitmentNewService extends IGeneralService<RecuitmentNew> {
     List<RecuitmentNew> findAllByCompany_Id(Long id);
 
     List<RecuitmentNew> quickSearchByField(SearchJob searchJob);
+
+    //  Tìm kiếm nhanh Job theo địa chỉ
+    List<RecuitmentNew> quickSearchByCity(SearchJob searchJob);
 }

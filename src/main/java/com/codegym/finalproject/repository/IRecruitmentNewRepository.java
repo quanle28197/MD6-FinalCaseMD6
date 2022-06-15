@@ -34,4 +34,9 @@ public interface IRecruitmentNewRepository extends JpaRepository<RecuitmentNew, 
             "or LOWER(ci.name) like lower(concat('%', :title, '%')) " +
             "or lower(f.name) like lower(concat('%', :title, '%'))")
     List<RecuitmentNew> quickSearchByField(@Param("title") String title);
+
+    @Query("select r from RecuitmentNew r " +
+            "left join City ci on r.city.id = ci.id " +
+            "where lower(ci.name) like lower(concat('%', :title ,'%'))")
+    List<RecuitmentNew> quickSearchByCity(@Param("title") String title);
 }

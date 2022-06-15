@@ -59,6 +59,12 @@ public class RecruitmentNewService implements IRecuitmentNewService {
         }
     }
 
-
-
+    @Override
+    public List<RecuitmentNew> quickSearchByCity(SearchJob searchJob) {
+        if (searchJob.getTitle().equals("")){
+            return new ArrayList<>();
+        }else {
+            return recruitmentNewRepository.quickSearchByCity(searchJob.getTitle());
+        }
+    }
 }

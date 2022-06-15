@@ -42,7 +42,7 @@ public class ApplyController {
     private CompanyService companyService;
 
     @Autowired
-    private ICvService cvService;
+    private ICvService iCvService;
 
     @Autowired
     private EmailServiceImpl emailService;
@@ -56,7 +56,7 @@ public class ApplyController {
         if(applyService.existsByUserIdAndRecuitmentNewId(applyJob.getUserId(),applyJob.getRecuitmentNewId())){
             return new ResponseEntity<>(new ResponseMessage("MATCH"), HttpStatus.OK);
         }
-        if(cvService.existByUserId(applyJob.getUserId())){
+        if(iCvService.existByUserId(applyJob.getUserId())){
             LocalDate now = LocalDate.now();
             RecuitmentNew recuitmentNew = recuitmentNewService.findById(applyJob.getRecuitmentNewId()).get();
             User user = userService.findById(applyJob.getUserId()).get();
@@ -75,7 +75,7 @@ public class ApplyController {
     public ResponseEntity<?> forwardApply(@RequestBody ForwardApply forwardApply){
         Company companyCurrent = companyService.findById(forwardApply.getIdCompany()).get();
         User userCurrent = userService.findById(forwardApply.getIdUser()).get();
-        MailObject mailObject = new MailObject(from,userCurrent.getAccount().getUsername(), "Thông báo tuyển dụng", "Bạn " + userCurrent.getName() + " đã ứng tuyển vào công ty " +companyCurrent.getName() + " thành công. Vui lòng chờ mail từ công ty để xác nhận" );
+        MailObject mailObject = new MailObject( from,userCurrent.getAccount().getUsername(), "Thông báo tuyển dụng", "Bạn " + userCurrent.getName() + " đã ứng tuyển vào công ty " +companyCurrent.getName() + " thành công. Vui lòng chờ mail từ công ty để xác nhận." );
         emailService.sendSimpleMessage(mailObject);
         return new ResponseEntity<>(new ResponseMessage("yes"), HttpStatus.OK);
     }
@@ -84,13 +84,13 @@ public class ApplyController {
         Company companyCurrent = companyService.findById(forwardApply.getIdCompany()).get();
         User userCurrent = userService.findById(forwardApply.getIdUser()).get();
         LocalDate dateApply = LocalDate.now().plusDays(3) ;
-        MailObject mailObject = new MailObject(from,userCurrent.getAccount().getUsername(), "Thông báo tuyển dụng: ", "Công ty " + companyCurrent.getName() + " đã chấp nhận đơn ứng tuyển của bạn " + userCurrent.getName() + ". Lịch phỏng vấn của bạn với công ty sẽ vào ngày " + dateApply +". Hãy liên hệ với công ty bạn ứng tuyển để biết thêm chi tiết !!");
+        MailObject mailObject = new MailObject( from,userCurrent.getAccount().getUsername(), "Thông báo tuyển dụng", "Công ty " + companyCurrent.getName() + " đã chấp nhận đơn ứng tuyển của bạn " + userCurrent.getName() + ". Lịch phỏng vấn của bạn với công ty vào ngày " + dateApply +". Hãy liên hệ với công ty bạn ứng tuyển để biết thêm chi tiết !!");
         emailService.sendSimpleMessage(mailObject);
         return new ResponseEntity<>(new ResponseMessage("yes"), HttpStatus.OK);
     }
 
     @GetMapping("/findAllByCompanyID/{id}")
-    public ResponseEntity<?> findAllByCompany(@PageableDefault(direction = Sort.Direction.DESC) Pageable pageable, @PathVariable Long id) {
+    public ResponseEntity<?> findAllByCompany(@PageableDefault(direction = Sort.Direction.DESC) Pageable pageable,@PathVariable Long id) {
         Page<ApplyShowAll> list = applyService.findAllByCompanyId(pageable, id);
         if (list.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -125,7 +125,7 @@ public class ApplyController {
         }
         if(changeStatusApply.getStatus() == 1){
             if(check){
-                return new ResponseEntity<>(new ResponseMessage("Nhân viên đã được chấp nhận bởi công ty khác"), HttpStatus.OK);
+                return new ResponseEntity<>(new ResponseMessage("Nhân viên đã được apcept bởi công ty khác!"), HttpStatus.OK);
             }
             apply.setStatus(Status.ACCEPT);
             applyService.save(apply);
@@ -134,7 +134,7 @@ public class ApplyController {
             LocalDate dateApply = LocalDate.now().plusDays(3) ;
             MailObject mailObject = new MailObject("findJob@job.com",userCurrent.getAccount().getUsername(), "Thông báo tuyển dụng", "Công ty " + companyCurrent.getName() + " đã chấp nhận đơn ứng tuyển của bạn " + userCurrent.getName() + ". Lịch phỏng vấn của bạn với công ty vào ngày " + dateApply +". Hãy liên hệ với công ty bạn ứng tuyển để biết thêm chi tiết !!");
             emailService.sendSimpleMessage(mailObject);
-            return new ResponseEntity<>(new ResponseMessage("Nhân viên đã được chấp nhận thành công"), HttpStatus.OK);
+            return new ResponseEntity<>(new ResponseMessage("Nhân viên đã được apcept thành công"), HttpStatus.OK);
 
         }
         if(changeStatusApply.getStatus() == 0){
@@ -142,7 +142,7 @@ public class ApplyController {
             applyService.save(apply);
             Company companyCurrent = apply.getRecuitmentNew().getCompany();
             User userCurrent = apply.getUser();
-            MailObject mailObject = new MailObject("findJob@job.com",userCurrent.getAccount().getUsername(), "Thông báo tuyển dụng", "Công ty " + companyCurrent.getName() + " đã từ chối đơn ứng tuyển của bạn " + userCurrent.getName() + ". Chúc bạn may mắn lần sau ");
+            MailObject mailObject = new MailObject("findJob@job.com",userCurrent.getAccount().getUsername(), "Thông báo tuyển dụng", "Công ty " + companyCurrent.getName() + " đã từ chối đơn ứng tuyển của bạn " + userCurrent.getName() + ". Chúc bạn may mắn lần sau! ");
             emailService.sendSimpleMessage(mailObject);
             return new ResponseEntity<>(new ResponseMessage("Bạn đã từ chối thành công"), HttpStatus.OK);
 
