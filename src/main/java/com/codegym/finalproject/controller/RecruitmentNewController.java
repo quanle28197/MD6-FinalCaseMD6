@@ -109,6 +109,17 @@ public class RecruitmentNewController {
         }
     }
 
+    // Tìm kiếm NHANH job theo địa chỉ
+    @GetMapping("/q-search/city")
+    public ResponseEntity<?> quickSearchByCity(@RequestBody SearchJob searchJob) {
+        try {
+            return new ResponseEntity<>(recruitmentNewService.quickSearchByCity(searchJob), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Not Found", HttpStatus.OK);
+        }
+    }
+
 
 
     @PutMapping("/editStatus/{id}")
