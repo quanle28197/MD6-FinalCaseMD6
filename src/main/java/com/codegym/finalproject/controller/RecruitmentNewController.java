@@ -5,6 +5,10 @@ import com.codegym.finalproject.model.dto.response.ResponseMessage;
 import com.codegym.finalproject.model.entity.RecuitmentNew;
 import com.codegym.finalproject.service.recuitmentNew.RecruitmentNewService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -118,6 +122,20 @@ public class RecruitmentNewController {
             e.printStackTrace();
             return new ResponseEntity<>("Not Found", HttpStatus.OK);
         }
+    }
+
+    @PostMapping("/findByObj")
+    public ResponseEntity<?> findByObj(@RequestBody SearchJob searchJob) {
+        return new ResponseEntity<>(recruitmentNewService.searchByObj(searchJob), HttpStatus.OK);
+    }
+
+    @GetMapping("/showPageRecuitmentNew")
+    public ResponseEntity<?> showPageRecuitmentNew(@PageableDefault(sort = "title", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<RecuitmentNew> list = recruitmentNewService.findAll(pageable);
+        if (list.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
 

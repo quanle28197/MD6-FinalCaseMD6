@@ -1,6 +1,7 @@
 package com.codegym.finalproject.service.recuitmentNew;
 
 import com.codegym.finalproject.model.dto.request.SearchJob;
+import com.codegym.finalproject.model.dto.response.PageResponse;
 import com.codegym.finalproject.model.entity.RecuitmentNew;
 import com.codegym.finalproject.service.IGeneralService;
 
@@ -13,4 +14,6 @@ public interface IRecuitmentNewService extends IGeneralService<RecuitmentNew> {
 
     //  Tìm kiếm nhanh Job theo địa chỉ
     List<RecuitmentNew> quickSearchByCity(SearchJob searchJob);
+
+    PageResponse searchByObj(SearchJob searchJob);
 }

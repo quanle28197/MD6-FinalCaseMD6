@@ -1,6 +1,8 @@
 package com.codegym.finalproject.service.recuitmentNew;
 
 import com.codegym.finalproject.model.dto.request.SearchJob;
+import com.codegym.finalproject.model.dto.response.PageResponse;
+import com.codegym.finalproject.model.dto.response.RecuitmentNewDTO;
 import com.codegym.finalproject.model.entity.RecuitmentNew;
 import com.codegym.finalproject.repository.IRecruitmentNewRepository;
 import com.codegym.finalproject.repository.IRecuitmentnewDAO;
@@ -66,5 +68,21 @@ public class RecruitmentNewService implements IRecuitmentNewService {
         }else {
             return recruitmentNewRepository.quickSearchByCity(searchJob.getTitle());
         }
+    }
+
+    @Override
+    public PageResponse searchByObj(SearchJob searchJob) {
+        List<RecuitmentNewDTO> list = recruitmentNewDAO.findJob(searchJob);
+        PageResponse pageResponse = new PageResponse();
+        pageResponse.setData(list);
+        pageResponse.setTotalRecord(recruitmentNewRepository.countTotalRecords(searchJob.getTitle(),
+                searchJob.getCityId(),
+                searchJob.getFieldId(),
+                searchJob.getCompanyId(),
+                searchJob.getVacancies(),
+                searchJob.getWorkingTimeId(),
+                searchJob.getSalary()));
+
+        return pageResponse;
     }
 }
