@@ -44,6 +44,10 @@ public class SearchJob {
         this.salary = salary;
     }
 
+    public SearchJob(String name) {
+        this.title = name;
+    }
+
     public Long getCompanyId() {
         return companyId;
     }
