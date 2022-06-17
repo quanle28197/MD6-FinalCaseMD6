@@ -9,16 +9,17 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/search")
+@CrossOrigin("*")
 public class SearchAdvancedController {
 
     @Autowired
     private RecruitmentNewService recruimentService;
 
     //  Tìm kiếm job theo thành phố và công ty
-    @GetMapping("/result")
-    public ResponseEntity<?> searchJobByCompAndCity(@RequestParam("query") String data) {
+    @GetMapping("them duong dan vao day")
+    public ResponseEntity<?> searchJobByCompAndCity(@RequestBody SearchJob searchJob) {
         try {
-            return new ResponseEntity<>(recruimentService.search(new SearchJob(data)), HttpStatus.OK);
+            return new ResponseEntity<>(recruimentService.search(searchJob), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>("Not found", HttpStatus.OK);
@@ -26,7 +27,7 @@ public class SearchAdvancedController {
     }
 
     //  Tìm kiếm job theo ngành nghề, địa chỉ
-    @PostMapping("/field")
+    @GetMapping("/field")
     public ResponseEntity<?> searchJobByField(@RequestBody SearchJob searchJob) {
         try {
             return new ResponseEntity<>(recruimentService.searchByField(searchJob), HttpStatus.OK);
@@ -37,10 +38,10 @@ public class SearchAdvancedController {
     }
 
     // Tìm kiếm nhanh job theo ngành nghề
-    @PostMapping("/q-search/field")
-    public ResponseEntity<?> quickSearchByField(@RequestBody SearchJob searchJob) {
+    @GetMapping
+    public ResponseEntity<?> quickSearchByField(@RequestParam("query") String field) {
         try {
-            return new ResponseEntity<>(recruimentService.quickSearchByField(searchJob), HttpStatus.OK);
+            return new ResponseEntity<>(recruimentService.quickSearchByField(new SearchJob(field)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>("Not found", HttpStatus.OK);
@@ -48,11 +49,11 @@ public class SearchAdvancedController {
     }
 
     // Tìm kiếm NHANH job theo địa chỉ
-    @GetMapping("/q-search/city")
-    public ResponseEntity<?> quickSearchByCity(@RequestParam("query") String name){
+    @GetMapping("/city")
+    public ResponseEntity<?> quickSearchByCity(@RequestParam("query") String data) {
         try {
-            return new ResponseEntity<>(recruimentService.quickSearchByCity(new SearchJob(name)), HttpStatus.OK);
-        }catch (Exception e){
+            return new ResponseEntity<>(recruimentService.quickSearchByCity(new SearchJob(data)), HttpStatus.OK);
+        } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>("Not Found", HttpStatus.OK);
         }

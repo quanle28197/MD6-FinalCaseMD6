@@ -23,6 +23,10 @@ public class SearchJob {
     public SearchJob() {
     }
 
+    public SearchJob(String field) {
+        this.title = field;
+    }
+
     public SearchJob(String title, Long cityId, Long fieldId, Long companyId, Long vacancies, Long workingTimeId) {
         this.title = title;
         this.cityId = cityId;
@@ -44,9 +48,7 @@ public class SearchJob {
         this.salary = salary;
     }
 
-    public SearchJob(String name) {
-        this.title = name;
-    }
+
 
     public Long getCompanyId() {
         return companyId;
