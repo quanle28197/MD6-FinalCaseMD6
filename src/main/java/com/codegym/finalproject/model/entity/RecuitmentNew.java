@@ -30,7 +30,7 @@ public class RecuitmentNew {
     @ManyToOne(targetEntity = Vacancies.class)
     private Vacancies vacancies;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date expDate;
 
     private String description;

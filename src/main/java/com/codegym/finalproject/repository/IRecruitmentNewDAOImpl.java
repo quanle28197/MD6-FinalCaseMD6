@@ -14,7 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class IRecuimentNewDAOImpl implements IRecuitmentnewDAO {
+public class IRecruitmentNewDAOImpl implements IRecuitmentnewDAO {
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -22,6 +23,7 @@ public class IRecuimentNewDAOImpl implements IRecuitmentnewDAO {
 
     @Override
     public List<RecuitmentNewDTO> findJob(SearchJob searchJob) {
+        // Check zalo
         simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("produces")
                 .returningResultSet("recuitmentnew", (RowMapper<RecuitmentNewDTO>) (rs, rowNum) -> {
                     RecuitmentNewDTO recuitmentNewDTO = new RecuitmentNewDTO();
@@ -29,19 +31,19 @@ public class IRecuimentNewDAOImpl implements IRecuitmentnewDAO {
                     recuitmentNewDTO.setTitle(rs.getString("title"));
                     recuitmentNewDTO.setDescription(rs.getString("description"));
                     recuitmentNewDTO.setStatus(rs.getString("status"));
-                    recuitmentNewDTO.setCompanyId(rs.getLong("companyId"));
-                    recuitmentNewDTO.setCityId(rs.getLong("cityId"));
-                    recuitmentNewDTO.setCityName(rs.getString("cityName"));
-                    recuitmentNewDTO.setCompanyName(rs.getString("companyName"));
-                    recuitmentNewDTO.setFieldId(rs.getLong("fieldId"));
-                    recuitmentNewDTO.setFieldName(rs.getString("fieldName"));
-                    recuitmentNewDTO.setVacanciesId(rs.getLong("vacanciesId"));
-                    recuitmentNewDTO.setVacanciesName(rs.getString("vacanciesName"));
-                    recuitmentNewDTO.setWorkingTimeId(rs.getLong("workingTimeId"));
-                    recuitmentNewDTO.setWorkingTimeName(rs.getString("workingTimeName"));
-                    recuitmentNewDTO.setAvatar(rs.getString("avatar"));
-                    recuitmentNewDTO.setSalary(rs.getInt("salary"));
-                    recuitmentNewDTO.setExpDate(rs.getString("expDate"));
+                    recuitmentNewDTO.setCompanyId(rs.getLong("company_id"));
+                    recuitmentNewDTO.setCityId(rs.getLong("city_id"));
+                    //recuitmentNewDTO.setCityName(rs.getString("cityName"));
+                    //recuitmentNewDTO.setCompanyName(rs.getString("companyName"));
+                    //recuitmentNewDTO.setFieldId(rs.getLong("fieldId"));
+                    //recuitmentNewDTO.setFieldName(rs.getString("fieldName"));
+                    //recuitmentNewDTO.setVacanciesId(rs.getLong("vacanciesId"));
+                    //recuitmentNewDTO.setVacanciesName(rs.getString("vacanciesName"));
+                    //recuitmentNewDTO.setWorkingTimeId(rs.getLong("workingTimeId"));
+                    //recuitmentNewDTO.setWorkingTimeName(rs.getString("workingTimeName"));
+                    //recuitmentNewDTO.setAvatar(rs.getString("avatar"));
+                    //recuitmentNewDTO.setSalary(rs.getInt("salary"));
+                    //recuitmentNewDTO.setExpDate(rs.getString("expDate"));
                     return recuitmentNewDTO;
                 });
         SqlParameterSource in = new MapSqlParameterSource()

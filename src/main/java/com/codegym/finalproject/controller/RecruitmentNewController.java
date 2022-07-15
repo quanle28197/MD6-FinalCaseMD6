@@ -43,7 +43,6 @@ public class RecruitmentNewController {
         int min = 100;
         int max = 999;
         String nameCompany = String.valueOf((int) Math.floor(Math.round((Math.random() * (max - min + 1) + min))));
-        ;
         recuitmentNew.setCodeNews(nameex + nameCompany);
         System.out.println(recuitmentNew.getCodeNews());
         recuitmentNew.setStatus(true);
